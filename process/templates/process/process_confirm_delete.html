@@ -1,0 +1,20 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Process Delete / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{id_pet}} Process Delete {{id_pro}} </h1>
+
+<a href="{% url 'process_list' id_pet %}">Go to Process List</a>
+
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete the process {{ obj }} ?  </p>
+    <input type="submit" value="Delete">
+</form>
+
+{% endblock %}

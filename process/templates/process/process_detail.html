@@ -1,0 +1,43 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    ProcessDetail / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{id_pet}}  Process Detail </h1>
+<br>
+<a href="{% url 'process_list' id_pet %}"> Go Back</a>
+<br>
+<br>
+<div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Type Process</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Date</th>
+                <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-active">
+                <th scope="row">{{pro.id}}</th>
+                <td>{{pro.type_process}}</td>
+                <td>{{pro.title}}</td>
+                <td>{{pro.description}}</td>
+                <td>{{pro.weight}}</td>
+                <td>{{pro.created}}</td>
+                <td><a href="{% url 'process_update' id_pet pro.id %}">Update</a> </td>
+            </tr>
+        </table>
+    <br>
+        <a href="{% url 'process_delete' id_pet pro.id %}">Delete</a>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Vaccine Create / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h3> {{vaccines}} Vaccine Create Form</h3>
+
+<a href="{% url 'vaccine_list' id_pet %}"> Go Back</a>
+
+<p>{{id_pet}} ID Mascota</p>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

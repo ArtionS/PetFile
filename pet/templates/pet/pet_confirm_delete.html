@@ -1,0 +1,17 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Pet Delete / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'pet_list' %}">Go to List</a>
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete this Pet ?  "{{pet}}"</p>
+    <input type="submit" value="Delete">
+</form>
+
+{% endblock %}

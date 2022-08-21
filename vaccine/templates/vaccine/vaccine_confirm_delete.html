@@ -1,0 +1,20 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Vaccine Delete / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{id_pet}} Vaccine Delete {{id_pro}} </h1>
+
+<a href="{% url 'vaccine_list' id_pet %}">Go to Process List</a>
+
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete the Vaccine {{ obj }} ?  </p>
+    <input type="submit" value="Delete">
+</form>
+
+{% endblock %}
