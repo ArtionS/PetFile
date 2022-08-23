@@ -1,19 +1,117 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block title %}
     PetCreate / PetMedic
 {% endblock %}
 
 {% block content %}
+    <legend>Pet Create Form </legend>
 
-<h3>Pet Create Form</h3>
+    <a href="{% url 'pet_list' %}"> Go Back</a>
 
-<a href="{% url 'pet_list' %}"> Go Back</a>
-
-<form method="POST" action="">
     {% csrf_token %}
-    {{ form.as_p}}
-    <input type="submit" value="Submit">
-</form>
+
+{##}
+{#    fields = [#}
+{#        'PetUpdate',#}
+{#        'type_animal',#}
+{#        'raze',#}
+{#        'gender',#}
+{#        'description',#}
+{#        'birth_day',#}
+{#        'picture',#}
+{#        ]#}
+
+
+
+    <form name="pet_create" method="POST">
+        {% csrf_token %}
+        <fieldset>
+
+            <div class="form-group">
+                <label for="name" class="form-label mt-4">Pet Name</label>
+                <input name="name" type="text" class="form-control" id="name" aria-describedby="petlHelp" placeholder="Enter Pet Name" value="{{ pet.name }}">
+            </div>
+
+            <div class="form-group">
+                <label for="type_animal" class="form-label mt-4">Pet Type</label>
+                <input name="type_animal" type="text" class="form-control" id="type_animal" list="typeAnimalList" placeholder="Enter Pet Type" value="{{ pet.type_animal }}">
+                <datalist id="typeAnimalList">
+                    <option value="Perro">Perro</option>
+                    <option value="Gallo">Gallo</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Vaca">Vaca</option>
+                    <option value="Toro cebú">Toro cebú</option>
+                    <option value="Cabra">Cabra</option>
+                    <option value="Cerdo">Cerdo</option>
+                    <option value="Oveja">Oveja</option>
+                    <option value="Cuy">Cuy</option>
+                    <option value="Burro">Burro</option>
+                    <option value="Pato doméstico">Pato doméstico</option>
+                    <option value="Caballo">Caballo</option>
+                    <option value="Dromedario">Dromedario</option>
+                    <option value="Gusano de seda">Gusano de seda</option>
+                    <option value="Paloma común">Paloma común</option>
+                    <option value="Camello">Camello</option>
+                    <option value="Llama">Llama</option>
+                    <option value="Alpaca">Alpaca</option>
+                    <option value="Gallina de Guinea">Gallina de Guinea</option>
+                    <option value="Turón">Turón</option>
+                    <option value="Ratón">Ratón</option>
+                    <option value="Tórtola rosigris">Tórtola rosigris</option>
+                    <option value="Pavo">Pavo</option>
+                    <option value="Pez carpa">Pez carpa</option>
+                    <option value="Rata doméstica">Rata doméstica</option>
+                    <option value="Canario doméstico">Canario doméstico</option>
+                    <option value="Pez guppy">Pez guppy</option>
+                    <option value="Abeja doméstica">Abeja doméstica</option>
+                    <option value="Pato criollo">Pato criollo</option>
+                    <option value="Pavo real">Pavo real</option>
+                    <option value="Cacatúa">Cacatúa</option>
+                    <option value="Guacamaya">Guacamaya</option>
+                    <option value="Tortuga de tierra">Tortuga de tierra</option>
+                    <option value="Cisne">Cisne</option>
+                    <option value="Periquito australiano">Periquito australiano</option>
+                    <option value="Capibara, chigüire o carpincho">Capibara, chigüire o carpincho</option>
+                    <option value="Hámster">Hámster</option>
+                    <option value="Tortuga de orejas rojas">Tortuga de orejas rojas</option>
+                    <option value="Loro doméstico">Loro doméstico</option>
+                </datalist>
+            </div>
+
+            <div class="form-group">
+                <label for="raze" class="form-label mt-4">Pet Raze</label>
+                <input name="raze" type="text" class="form-control" id="raze" placeholder="Enter Pet Raze" value="{{ pet.raze }}">
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="form-label mt-4">Animal Gender</label>
+                <select name="gender"  class="form-select" id="gender" value="{{ gender }}">
+                    <option value="F">Female</option>
+                    <option value="M">Male</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="form-label mt-4">Pet Description</label>
+                <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Pet Description" value="{{ pet.description }}">{{ pet.description }}</textarea >
+            </div>
+
+            <div class="form-group">
+                <label for="birth_day" class="form-label mt-4">Pet Bithday</label>
+                <input name="birth_day" type="date" class="form-control" id="birth_day" placeholder="Animal Type" value = "{{ pet.birth_day }}">
+            </div>
+
+            <div class="form-group">
+                <label for="picture" class="form-label mt-4">Pet Image: {{ pet.picture }}</label>
+                <input name="picture" class="form-control" type="file" id="picture" value="{{ pet.picture }}">
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+    </form>
+
 
 {% endblock %}

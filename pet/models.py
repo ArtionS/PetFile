@@ -39,5 +39,8 @@ class Pet(models.Model):
     # vaccines  #List
     # rocess    #List
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
