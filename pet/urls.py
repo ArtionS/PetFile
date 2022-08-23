@@ -7,5 +7,5 @@ urlpatterns = [
     path('pet/<int:pk>/', PetDetail, name='pet_detail'),
     path('pet/create/', PetCreate, name='pet_create'),
     path('pet/<int:pk>/update/', PetUpdate, name='pet_update'),
-    path('pet/<int:pk>/delete/', PetDelete.as_view(), name='pet_delete'),
+    path('pet/<int:pk>/delete/', PetDelete, name='pet_delete'),
 ]
