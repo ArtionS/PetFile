@@ -15,7 +15,18 @@ from .forms import PetForm
 
 
 def PetList(request):
-    return render(request, "pet/pet_list.html", {'pets': request.user.pet_set.all()})
+
+    context = {
+        'pets': request.user.pet_set.all()
+    }
+
+    search_input = request.GET.get('search-area') or ''
+    if search_input:
+        context['pets'] = context['pets'].filter(name__icontains=search_input)
+        # context['pets'] = context['pets'].filter(name__startswith=search_input)
+    context['search_input'] = search_input
+
+    return render(request, "pet/pet_list.html", context)
 
 
 def PetDetail(request, pk):
@@ -55,7 +66,7 @@ def PetUpdate(request, pk):
             mypet.save()
             return PetList(request)
         else:
-            print('/ No thanks/')
+            # print('/ No thanks/')
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -66,23 +77,12 @@ def PetUpdate(request, pk):
 
 
 def PetDelete(request, pk):
-    print("Delete Pet")
     if request.method == 'POST':
-        print("Delete Pet POST")
         mypet = request.user.pet_set.get(id=pk)
-        print(mypet)
-        print(mypet.__dict__)
         mypet.delete()
         return PetList(request)
     # if a GET (or any other method) we'll create a blank form
     else:
-        print("Delete Pet GET")
         mypet = request.user.pet_set.get(id=pk)
         form = PetForm()
     return render(request, 'pet/pet_confirm_delete.html', {'form': form, 'pet': mypet})
-
-# class PetDelete(LoginRequiredMixin, DeleteView):
-#     model = Pet
-#     template_name = 'pet/pet_confirm_delete.html'
-#     context_object_name = 'pet'
-#     success_url = reverse_lazy('pet_list')

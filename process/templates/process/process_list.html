@@ -6,7 +6,7 @@ ProcessList / PetMedic
 
 {% block content %}
 
-<h1> {{id_pet}}  Process </h1>
+<h1> {{id_pet}} Process List</h1>
 <h1> </h1>
 
 <form method="GET">
@@ -21,22 +21,19 @@ ProcessList / PetMedic
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Pet ID</th>
             <th scope="col">ID</th>
-            <th scope="col">Type Process</th>
             <th scope="col">Title</th>
+            <th scope="col">Type Process</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        {% for pro in pros %}
+        {% for process in processes %}
         <tr class="table-active">
-            <th scope="row">{{pro.pet_id}}</th>
-            <th scope="row">{{pro.id}}</th>
-            <td>{{pro.type_process}}</td>
-            <td>{{pro.title}}</td>
-            <td><a href="{% url 'process_detail' id_pet pro.id %}">Detail</a></td>
-
+            <th scope="row">{{process.id}}</th>
+            <td>{{process.title}}</td>
+            <td>{{process.type_process}}</td>
+            <td><a href="{% url 'process_detail' id_pet process.id %}">Detail</a></td>
         </tr>
         {% empty %}
         <h3> No Process in List </h3>

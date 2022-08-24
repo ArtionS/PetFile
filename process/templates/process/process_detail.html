@@ -26,17 +26,17 @@
           </thead>
           <tbody>
             <tr class="table-active">
-                <th scope="row">{{pro.id}}</th>
-                <td>{{pro.type_process}}</td>
-                <td>{{pro.title}}</td>
-                <td>{{pro.description}}</td>
-                <td>{{pro.weight}}</td>
-                <td>{{pro.created}}</td>
-                <td><a href="{% url 'process_update' id_pet pro.id %}">Update</a> </td>
+                <th scope="row">{{process.id}}</th>
+                <td>{{process.type_process}}</td>
+                <td>{{process.title}}</td>
+                <td>{{process.description}}</td>
+                <td>{{process.weight}}</td>
+                <td>{{process.created}}</td>
+                <td><a href="{% url 'process_update' id_pet process.id %}">Update</a> </td>
             </tr>
         </table>
     <br>
-        <a href="{% url 'process_delete' id_pet pro.id %}">Delete</a>
+        <a href="{% url 'process_delete' id_pet process.id %}">Delete</a>
 
 </div>
 

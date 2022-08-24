@@ -1,111 +1,74 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse
-
-# Paquete para pedir que se este en modo login
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Modelos de Proceso
-from .models import Vaccine, Pet
+from .forms import VaccineForm
 
 
-class VaccineList(LoginRequiredMixin, ListView):
-    model = Vaccine
-    context_object_name = 'vaccines'
-    template_name = 'vaccine/vaccine_list.html'
+def VaccineList(request, id_pet):
+    context = {
+        'vaccines': request.user.pet_set.get(id=id_pet).vaccine_set.all(),
+        'id_pet': id_pet
+    }
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        newPet = Pet()
-        newPet.id = self.kwargs['id_pet']
-        context['vaccines'] = context['vaccines'].filter(pet_id=newPet.id)
-        context['id_pet'] = self.kwargs['id_pet']
-        return context
+    search_input = request.GET.get('search-area') or ''
+    if search_input:
+        context['vaccines'] = context['vaccines'].filter(name__icontains=search_input)
+        # context['processes'] = context['processes'].filter(title__startswith=search_input)
+    context['search_input'] = search_input
 
-
-class VaccineDetail(LoginRequiredMixin, DetailView):
-    model = Vaccine
-    context_object_name = 'vaccines'
-    template_name = 'vaccine/vaccine_detail.html'
-    pk_url_kwarg = "id_vac"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['id_pet'] = self.kwargs['id_pet']
-        return context
+    return render(request, "vaccine/vaccine_list.html", context)
 
 
-class VaccineCreate(LoginRequiredMixin, CreateView):
-    model = Vaccine
-    fields = [
-        'name',
-    ]
-    template_name = 'vaccine/vaccine_form.html'
-
-    def get_success_url(self):
-        return reverse('vaccine_list' , kwargs=self.kwargs)
-
-    def form_valid(self, form):
-        newpet = Pet()
-        newpet.id = self.kwargs['id_pet']
-        form.instance.pet_id = newpet
-        return super(VaccineCreate, self).form_valid(form)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = {
-            'id_pet' : self.kwargs['id_pet'],
-            'form': self.get_form()
-        }
-        return context
+def VaccineDetail(request, id_pet, id_vac):
+    context = {
+        'vaccine': request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac),
+        'id_pet': id_pet
+    }
+    return render(request, "vaccine/vaccine_detail.html", context)
 
 
-class VaccineUpdate(LoginRequiredMixin, UpdateView):
-    model = Vaccine
-    fields = [
-        'name',
-    ]
-    pk_url_kwarg = "id_pro"
-
-    def get_success_url(self):
-        return reverse('vaccine_detail' , kwargs=self.kwargs)
-
-    def form_valid(self, form):
-        newpet = Pet()
-        newpet.id = self.kwargs['id_pet']
-        form.instance.pet_id = newpet
-        return super(VaccineUpdate, self).form_valid(form)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = {
-            'id_pet' : self.kwargs['id_pet'],
-            'form': self.get_form()
-        }
-        return context
+def VaccineCreate(request, id_pet):
+    if request.method == 'POST':
+        form = VaccineForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.pet_id = request.user.pet_set.get(id=id_pet)
+            form.save()
+            return VaccineList(request, id_pet)
+        else:
+            print('/ No thanks/')
+            print(form.errors)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = VaccineForm()
+    return render(request, "vaccine/vaccine_form.html", {'form': form, 'id_pet': id_pet})
 
 
-class VaccineDelete(LoginRequiredMixin, DeleteView):
-    model = Vaccine
-    template_name = 'vaccine/vaccine_confirm_delete.html'
-    context_object_name = 'vaccines'
-    pk_url_kwarg = "id_vac"
+def VaccineUpdate(request, id_pet, id_vac):
+    if request.method == 'POST':
+        form = VaccineForm(request.POST, request.FILES)
+        if form.is_valid():
+            myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
 
-    def get_success_url(self):
-        context = {
-            'id_pet' : self.kwargs['id_pet']
-        }
-        return reverse('vaccine_list' , kwargs=context)
+            myvaccine.name = form['name'].value()
 
-    def form_valid(self, form):
-        return super(VaccineDelete, self).form_valid(form)
+            myvaccine.save()
+            return VaccineList(request, id_pet)
+        else:
+            print(form.errors)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
+        form = VaccineForm()
+    return render(request, 'process/process_form.html', {'form': form, 'vaccine': myvaccine, 'id_pet': id_pet})
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = {
-            'id_pet' : self.kwargs['id_pet'],
-            'id_vac': self.kwargs['id_vac'],
-            'form': self.get_form(),
-            'obj' : self.object
-        }
-        return context
+
+def VaccineDelete(request, id_pet, id_vac):
+    if request.method == 'POST':
+        myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
+        myvaccine.delete()
+        return VaccineList(request, id_pet)
+    else:
+        myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
+        form = VaccineForm()
+    return render(request, 'vaccine/vaccine_confirm_delete.html' ,
+                  {'form' : form , 'vaccine' : myvaccine , 'id_pet' : id_pet})
+
