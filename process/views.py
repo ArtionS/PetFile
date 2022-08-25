@@ -23,8 +23,9 @@ def ProcessList(request, id_pet):
 
 def ProcessDetail(request, id_pet, id_pro):
     context = {
-        'process': request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro),
-        'id_pet': id_pet
+        'process' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro),
+        'documents' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.all(),
+        'id_pet' : id_pet
     }
     return render(request, "process/process_detail.html", context)
 

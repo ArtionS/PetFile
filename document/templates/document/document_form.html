@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Document Create / PetMedic
+{% endblock %}
+
+{% block content %}
+    <legend>Document Create Form </legend>
+
+    <a href="{% url 'process_detail' id_pet id_pro%}"> Go Back</a>
+
+    <form name="document_create" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+
+            <div class="form-group">
+                <label for="name" class="form-label mt-4">Document Title</label>
+                <input name="name" type="text" class="form-control" id="name" aria-describedby="petlHelp"
+                       placeholder="Enter Document Name" value="{{ document.name }}">
+            </div>
+
+            <div class="form-group">
+                <label for="document" class="form-label mt-4">Document (File): {{ document.document }}</label>
+                <input name="document" class="form-control" type="file" id="document" value="{{ document.document }}">
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+    </form>
+
+{% endblock %}

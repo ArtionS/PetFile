@@ -1,12 +1,7 @@
 from django.shortcuts import render
 
-from django.urls import reverse_lazy, reverse
-
 # Paquete para pedir que se este en modo login
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Modelo de mascota
-from .models import Pet
 
 # Forms
 from .forms import PetForm
