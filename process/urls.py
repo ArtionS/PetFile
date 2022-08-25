@@ -11,5 +11,4 @@ urlpatterns = [
     path('pet/<int:id_pet>/process/create/', ProcessCreate, name='process_create'),
     path('pet/<int:id_pet>/process/<int:id_pro>/update/', ProcessUpdate, name='process_update'),
     path('pet/<int:id_pet>/process/<int:id_pro>/delete', ProcessDelete, name='process_delete'),
-
 ]
