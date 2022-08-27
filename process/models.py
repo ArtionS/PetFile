@@ -31,6 +31,9 @@ class Process(models.Model):
     updated = models.DateTimeField(auto_now=True)  # hace referencia de cuando de actualiza  (todo el tiempo)
     created = models.DateTimeField(auto_now_add=True)  # hace referencia a cuando se creo la mascota (una vez)
 
+    class Meta:
+        ordering = ['title']
+
     def __int__(self):
         return self.id
 

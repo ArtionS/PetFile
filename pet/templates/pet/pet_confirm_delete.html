@@ -6,11 +6,17 @@
 
 {% block content %}
 
-<a href="{% url 'pet_list' %}">Go to List</a>
+<a href="{% url 'pet_detail' pet.id %}">Go Back</a>
 
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete this Pet ?  "{{pet}}"</p>
+    <p>Are you sure you want to delete me "{{pet}}" ?  </p>
+
+    <br>
+    <img src="{{ pet.picture.url }}" width="150">
+    <br>
+    <br>
+
     <input type="submit" value="Delete">
 </form>
 

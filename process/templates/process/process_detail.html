@@ -1,4 +1,4 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block title %}
     ProcessDetail / PetMedic
@@ -6,14 +6,15 @@
 
 {% block content %}
 
-<h1> {{id_pet}}  Process Detail </h1>
-<br>
-<a href="{% url 'process_list' id_pet %}"> Go Back</a>
-<br>
-<br>
-<div>
+    <h1> {{ id_pet }} Process Detail </h1>
+    <br>
+    <a href="{% url 'process_list' id_pet %}"> Go Back</a>
+    <br>
+    <br>
+
+    <div>
         <table class="table table-hover">
-          <thead>
+            <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Type Process</th>
@@ -23,21 +24,49 @@
                 <th scope="col">Date</th>
                 <th scope="col"></th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr class="table-active">
-                <th scope="row">{{pro.id}}</th>
-                <td>{{pro.type_process}}</td>
-                <td>{{pro.title}}</td>
-                <td>{{pro.description}}</td>
-                <td>{{pro.weight}}</td>
-                <td>{{pro.created}}</td>
-                <td><a href="{% url 'process_update' id_pet pro.id %}">Update</a> </td>
+                <th scope="row">{{ process.id }}</th>
+                <td>{{ process.type_process }}</td>
+                <td>{{ process.title }}</td>
+                <td>{{ process.description }}</td>
+                <td>{{ process.weight }}</td>
+                <td>{{ process.created }}</td>
+                <td><a href="{% url 'process_update' id_pet process.id %}">Update</a></td>
             </tr>
         </table>
+        <br>
+    </div>
     <br>
-        <a href="{% url 'process_delete' id_pet pro.id %}">Delete</a>
+    <h1>  Document List </h1>
+    <br>
+    <a href="{% url 'document_create' id_pet process.id %}">Add New Document</a>
+    <br>
+    <br>
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for document in documents %}
+                <tr class="table-active">
+                    <th scope="row">{{ document.id }}</th>
+                    <td>{{ document.name }}</td>
+                    <td><a href="{% url 'document_detail' id_pet process.id document.id %}">Detail</a></td>
+                </tr>
+                {% empty %}
+                <h3> No Documents in the Process </h3>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-</div>
+
 
 {% endblock %}

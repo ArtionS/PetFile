@@ -6,14 +6,14 @@
 
 {% block content %}
 
-<h1> {{id_pet}} Process Delete {{id_pro}} </h1>
+<h1> {{id_pet}} Process Delete {{process.id}} </h1>
 
-<a href="{% url 'process_list' id_pet %}">Go to Process List</a>
+<a href="{% url 'process_detail' id_pet process.id %}">Go Back</a>
 
 
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete the process {{ obj }} ?  </p>
+    <p>Are you sure you want to delete the process {{ process }} ?  </p>
     <input type="submit" value="Delete">
 </form>
 

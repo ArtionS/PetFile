@@ -1,98 +1,93 @@
-# from django.shortcuts import render
-
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.shortcuts import render
 
 # Paquete para pedir que se este en modo login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# Modelo de mascota
-from .models import Pet
+from django.contrib.auth.decorators import login_required
+# @login_required()
+
+# Forms
+from .forms import PetForm
 
 # Create your views here.
 
+@login_required()
+def PetList(request):
 
-class PetList(LoginRequiredMixin, ListView):
-    model = Pet
-    context_object_name = 'pets'
-    template_name = 'pet/pet_list.html'
+    print("Request")
+    print(request)
+    print("Reuqest Dic")
+    print(request.__dict__)
 
-    def get_context_data(self, **kwargs):
-        # print(kwargs)
-        context = super().get_context_data(**kwargs)
-        # print(context)
+    context = {
+        'pets': request.user.pet_set.all()
+    }
 
-        context['pets'] = context['pets'].filter(owner=self.request.user)
+    # print(context.__dict__)
 
-        search_input = self.request.GET.get('search-area') or ''
-        if search_input:
-            # context['pets'] = context['pets'].filter(name__icontains=search_input)
-            context['pets'] = context['pets'].filter(name__startswith=search_input)
-        context['search_input'] = search_input
+    search_input = request.GET.get('search-area') or ''
+    if search_input:
+        context['pets'] = context['pets'].filter(name__icontains=search_input)
+        # context['pets'] = context['pets'].filter(name__startswith=search_input)
+    context['search_input'] = search_input
 
-        return context
+    return render(request, "pet/pet_list.html", context)
 
+@login_required()
+def PetDetail(request, pk):
+    return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
 
-class PetDetail(LoginRequiredMixin, DetailView):
-    model = Pet
-    context_object_name = 'pet'
-    template_name = 'pet/pet_detail.html'
+@login_required()
+def PetCreate(request):
+    if request.method == 'POST':
+        form = PetForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.owner = request.user
+            form.save()
+            return PetList(request)
+        else:
+            # print('/ No thanks/')
+            print(form.errors)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = PetForm()
+    return render(request, 'pet/pet_form.html', {'form': form})
 
+@login_required()
+def PetUpdate(request, pk):
+    if request.method == 'POST':
+        form = PetForm(request.POST, request.FILES)
+        if form.is_valid():
+            mypet = request.user.pet_set.get(id=pk)
 
-class PetCreate(LoginRequiredMixin, CreateView):
-    model = Pet
-    # fields = '__all__'
-    fields = [
-        'name',
-        'type_animal',
-        'raze',
-        'gender',
-        'description',
-        'birth_day',
-        'picture',
-        ]
+            mypet.name = form['name'].value()
+            mypet.type_animal = form['type_animal'].value()
+            mypet.raze = form['raze'].value()
+            mypet.gender = form['gender'].value()
+            mypet.description = form['description'].value()
+            mypet.birth_day = form['birth_day'].value()
+            mypet.picture = form['picture'].value()
 
-    template_name = 'pet/pet_form.html'
-    success_url = reverse_lazy('pet_list')
+            mypet.save()
+            return PetList(request)
+        else:
+            # print('/ No thanks/')
+            print(form.errors)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        mypet = request.user.pet_set.get(id=pk)
+        mypet.birth_day = mypet.birth_day.strftime("%Y-%m-%d")
+        form = PetForm()
+    return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
 
-    def form_valid(self, form):
-        # print("Form Valid Pet Create")
-        # print("Self")
-        # print(self)
-        # print(self.__dict__)
-        # print("form")
-        # print(form)
-        # print("Head")
-        # print(self.head.__dict__)
-
-        form.instance.owner = self.request.user
-        return super(PetCreate, self).form_valid(form)
-
-
-    # context_object_name = 'pet'
-    # template_name = 'base/pet_form.html'
-
-
-
-class PetUpdate(LoginRequiredMixin, UpdateView):
-    model = Pet
-    # fields = '__all__'
-    fields = [
-        'name',
-        'type_animal',
-        'raze',
-        'gender',
-        'description',
-        'birth_day',
-        'picture',
-    ]
-    success_url = reverse_lazy('pet_list')
-
-
-class PetDelete(LoginRequiredMixin, DeleteView):
-    model = Pet
-    template_name = 'pet/pet_confirm_delete.html'
-    context_object_name = 'pet'
-    success_url = reverse_lazy('pet_list')
+@login_required()
+def PetDelete(request, pk):
+    if request.method == 'POST':
+        mypet = request.user.pet_set.get(id=pk)
+        mypet.delete()
+        return PetList(request)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        mypet = request.user.pet_set.get(id=pk)
+        form = PetForm()
+    return render(request, 'pet/pet_confirm_delete.html', {'form': form, 'pet': mypet})

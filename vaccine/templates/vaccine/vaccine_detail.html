@@ -23,14 +23,14 @@
           </thead>
           <tbody>
             <tr class="table-active">
-                <th scope="row">{{vaccines.id}}</th>
-                <td>{{vaccines.name}}</td>
-                <td>{{vaccines.created}}</td>
-                <td><a href="{% url 'vaccine_update' id_pet vaccines.id %}">Update</a> </td>
+                <th scope="row">{{vaccine.id}}</th>
+                <td>{{vaccine.name}}</td>
+                <td>{{vaccine.created}}</td>
+                <td><a href="{% url 'vaccine_update' id_pet vaccine.id %}">Update</a> </td>
             </tr>
         </table>
     <br>
-        <a href="{% url 'vaccine_delete' id_pet vaccines.id %}">Delete</a>
+        <a href="{% url 'vaccine_delete' id_pet vaccine.id %}">Delete</a>
 
 </div>
 
