@@ -1,1 +1,4 @@
 .idea
+__pycahce__
+__pycahce__/**
+db.sqlite3
