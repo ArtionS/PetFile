@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
 
+from django.contrib.auth.decorators import login_required
+# @login_required()
+
 from .forms import DocumentForm
-from process.views import ProcessDetail
 # Create your views here.
 
-
+@login_required()
 def DocumentList(request, id_pet, id_pro):
     context = {'id_pet': id_pet, 'id_pro': id_pro}
     return redirect(request, 'process/process_detail', context)
 
-
+@login_required()
 def DocumentDetail(request, id_pet, id_pro, id_doc):
     context = {
         'id_pet' : id_pet,
@@ -18,17 +20,13 @@ def DocumentDetail(request, id_pet, id_pro, id_doc):
     }
     return render(request , 'document/document_detail.html', context)
 
-
+@login_required()
 def DocumentCreate(request, id_pet, id_pro):
     if request.method == "POST":
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.pro_id = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
             form.save()
-            # mydoc = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
-            # return render(request, 'process/process_detail.html', {'id_pet': id_pet, 'id_pro': id_pro, 'process' : mypro })
-            # return DocumentDetail(request,  id_pet,  id_pro , mydoc.id)
-            # return ProcessDetail(request, id_pet , id_pro)
             return redirect('document_detail' , id_pet , id_pro , form.instance.id)
         else:
             print('/ No thanks/')
@@ -37,7 +35,7 @@ def DocumentCreate(request, id_pet, id_pro):
         form = DocumentForm()
     return render(request, 'document/document_form.html', {'form': form, 'id_pet': id_pet, 'id_pro': id_pro})
 
-
+@login_required()
 def DocumentUpdate(request, id_pet, id_pro, id_doc):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -59,7 +57,7 @@ def DocumentUpdate(request, id_pet, id_pro, id_doc):
                   {'form': form, 'document': mydocument, 'id_pet': id_pet, 'id_pro': id_pro})
 
 
-
+@login_required()
 def DocumentDelete(request, id_pet, id_pro, id_doc):
     if request.method == 'POST':
         mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)

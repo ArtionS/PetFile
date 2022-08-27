@@ -17,6 +17,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
+                <th scope="col">File</th>
 
                 <th scope="col"></th>
             </tr>
@@ -25,6 +26,7 @@
             <tr class="table-active">
                 <th scope="row">{{document.id}}</th>
                 <td>{{document.name}}</td>
+                <td><a href="{{   document.document.url }}"> {{document.document.name }}</a></td>
                 <td><a href="{% url 'document_update' id_pet id_pro document.id %}">Update</a> </td>
             </tr>
         </table>

@@ -3,17 +3,27 @@ from django.shortcuts import render
 # Paquete para pedir que se este en modo login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.contrib.auth.decorators import login_required
+# @login_required()
+
 # Forms
 from .forms import PetForm
 
 # Create your views here.
 
-
+@login_required()
 def PetList(request):
+
+    print("Request")
+    print(request)
+    print("Reuqest Dic")
+    print(request.__dict__)
 
     context = {
         'pets': request.user.pet_set.all()
     }
+
+    # print(context.__dict__)
 
     search_input = request.GET.get('search-area') or ''
     if search_input:
@@ -23,11 +33,11 @@ def PetList(request):
 
     return render(request, "pet/pet_list.html", context)
 
-
+@login_required()
 def PetDetail(request, pk):
     return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
 
-
+@login_required()
 def PetCreate(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -43,7 +53,7 @@ def PetCreate(request):
         form = PetForm()
     return render(request, 'pet/pet_form.html', {'form': form})
 
-
+@login_required()
 def PetUpdate(request, pk):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -70,7 +80,7 @@ def PetUpdate(request, pk):
         form = PetForm()
     return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
 
-
+@login_required()
 def PetDelete(request, pk):
     if request.method == 'POST':
         mypet = request.user.pet_set.get(id=pk)
