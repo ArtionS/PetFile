@@ -3,12 +3,15 @@ from django.shortcuts import render
 # Paquete para pedir que se este en modo login
 # from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.contrib.auth.decorators import login_required
-# @login_required()
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('pet.view_pet', raise_exception=True)
 
 from .forms import ProcessForm
 
-@login_required()
+
+@login_required
+@permission_required('process.view_process', raise_exception=True)
 def ProcessList(request, id_pet):
     context = {
         'processes': request.user.pet_set.get(id=id_pet).process_set.all(),
@@ -23,7 +26,9 @@ def ProcessList(request, id_pet):
 
     return render(request, "process/process_list.html", context)
 
-@login_required()
+
+@login_required
+@permission_required('process.view_process', raise_exception=True)
 def ProcessDetail(request, id_pet, id_pro):
     context = {
         'process' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro),
@@ -32,7 +37,9 @@ def ProcessDetail(request, id_pet, id_pro):
     }
     return render(request, "process/process_detail.html", context)
 
-@login_required()
+
+@login_required
+@permission_required('process.add_process', raise_exception=True)
 def ProcessCreate(request, id_pet):
     if request.method == 'POST':
         # print('Process Create Post')
@@ -51,7 +58,9 @@ def ProcessCreate(request, id_pet):
         form = ProcessForm()
     return render(request, "process/process_form.html", {'form': form, 'id_pet': id_pet})
 
-@login_required()
+
+@login_required
+@permission_required('process.change_process', raise_exception=True)
 def ProcessUpdate(request, id_pet, id_pro):
     if request.method == 'POST':
         form = ProcessForm(request.POST, request.FILES)
@@ -73,7 +82,9 @@ def ProcessUpdate(request, id_pet, id_pro):
         form = ProcessForm()
     return render(request, 'process/process_form.html', {'form': form, 'process': myprocess, 'id_pet': id_pet})
 
-@login_required()
+
+@login_required
+@permission_required('process.delete_process', raise_exception=True)
 def ProcessDelete(request, id_pet, id_pro):
     if request.method == 'POST':
         myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)

@@ -10,10 +10,38 @@
 
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Register">
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.username.errors }}
+        <label for="{{ form.username.id_for_label }}"> Username: </label>
+        {{ form.username }}
+        {{ form.help_text }}
+    </div>
+    <br>
+    <div>
+        {{ form.password1.errors }}
+        <label for="{{ form.password1.id_for_label }}"> password1: </label>
+        {{ form.password1 }}
+        {{ form.password1.help_text }}
+    </div>
+    <div>
+        {{ form.password2.errors }}
+        <label for="{{ form.password2.id_for_label }}"> password2: </label>
+        {{ form.password2 }}
+        {{ form.password2.help_text }}
+    </div>
+    <br>
+    <div class="form-check form-switch" >
+        {{ form.group.errors }}
+        <label for="{{ form.group.id_for_label }}"> {{ form.group.label}} :  </label>
+        {{ form.group }}
+        {{ form.group.help_text }}
+    </div>
+    <br>
+    <br>
+    <input type="submit" class="btn btn-primary" value="Register">
 </form>
-
-<p> Already have an account <a href=""> Login </a></p>
+<br>
+<p> Already have an account <a href="{% url 'login' %}"> Login </a></p>
 
 {% endblock %}

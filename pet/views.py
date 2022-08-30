@@ -1,23 +1,25 @@
 from django.shortcuts import render
 
-# Paquete para pedir que se este en modo login
-from django.contrib.auth.mixins import LoginRequiredMixin
+# Paquete para pedir que se este en modo login y pedir permisos
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('pet.view_pet', raise_exception=True)
 
-from django.contrib.auth.decorators import login_required
-# @login_required()
 
 # Forms
 from .forms import PetForm
 
 # Create your views here.
 
-@login_required()
+
+@login_required
+@permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
 
-    print("Request")
-    print(request)
-    print("Reuqest Dic")
-    print(request.__dict__)
+    # print("Request")
+    # print(request)
+    # print("Reuqest Dic")
+    # print(request.__dict__)
 
     context = {
         'pets': request.user.pet_set.all()
@@ -33,11 +35,15 @@ def PetList(request):
 
     return render(request, "pet/pet_list.html", context)
 
-@login_required()
+
+@login_required
+@permission_required('pet.view_pet', raise_exception=True)
 def PetDetail(request, pk):
     return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
 
-@login_required()
+
+@login_required
+@permission_required('pet.add_pet', raise_exception=True)
 def PetCreate(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -53,7 +59,9 @@ def PetCreate(request):
         form = PetForm()
     return render(request, 'pet/pet_form.html', {'form': form})
 
-@login_required()
+
+@login_required
+@permission_required('pet.change_pet', raise_exception=True)
 def PetUpdate(request, pk):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -80,7 +88,9 @@ def PetUpdate(request, pk):
         form = PetForm()
     return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
 
-@login_required()
+
+@login_required
+@permission_required('pet.delete_pet', raise_exception=True)
 def PetDelete(request, pk):
     if request.method == 'POST':
         mypet = request.user.pet_set.get(id=pk)

@@ -11,9 +11,9 @@
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
-    <input type="submit" value="Login">
+    <input type="submit" class="btn btn-primary" value="Login">
 </form>
-
+<br>
 <p> Don't have an account ? <a href="{% url 'register' %}"> Register </a></p>
 
 {% endblock %}
