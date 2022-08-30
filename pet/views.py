@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required , permission_required
 
 # Forms
 from .forms import PetForm
+from pet_type.models import PetType
 
 # Create your views here.
 
@@ -57,7 +58,10 @@ def PetCreate(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PetForm()
-    return render(request, 'pet/pet_form.html', {'form': form})
+        pet_type_list = PetType.objects.all()
+        # print("Lista aniales")
+        # print(pet_type_list)
+    return render(request, 'pet/pet_form.html', {'form': form , 'pet_type_list': pet_type_list})
 
 
 @login_required

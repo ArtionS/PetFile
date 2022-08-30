@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'process.apps.ProcessConfig',
     'vaccine.apps.VaccineConfig',
-    'document.apps.DocumentConfig'
+    'document.apps.DocumentConfig',
+    'pet_type.apps.PetTypeConfig',
 
 ]
 

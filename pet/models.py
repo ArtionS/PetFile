@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from pet_type.models import PetType
 
 # Create your models here.
 
@@ -21,7 +22,9 @@ class Pet(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500)
+
     type_animal = models.CharField(max_length=500)
+
     raze = models.CharField(max_length=500, null=True, blank=True)
     gender = models.CharField(
         max_length=2,
