@@ -52,9 +52,11 @@ def DocumentUpdate(request, id_pet, id_pro, id_doc):
             mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)
 
             mydocument.name = form['name'].value()
-            mydocument.document = form['document'].value()
-            mydocument.save()
 
+            if form['document'].value():
+                mydocument.document = form['document'].value()
+
+            mydocument.save()
             return redirect('document_detail' , id_pet , id_pro , mydocument.id)
         else:
             print(form.errors)
@@ -72,7 +74,7 @@ def DocumentDelete(request, id_pet, id_pro, id_doc):
     if request.method == 'POST':
         mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)
         mydocument.delete()
-        return redirect('process_detail' , id_pet , id_pro)
+        return redirect('process_detail' , id_pet, id_pro)
     # if a GET (or any other method) we'll create a blank form
     else:
         mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)

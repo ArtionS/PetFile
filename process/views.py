@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 
 # Paquete para pedir que se este en modo login
 # from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,7 +17,6 @@ def ProcessList(request, id_pet):
         'processes': request.user.pet_set.get(id=id_pet).process_set.all(),
         'id_pet': id_pet
     }
-
     search_input = request.GET.get('search-area') or ''
     if search_input:
         context['processes'] = context['processes'].filter(title__icontains=search_input)
@@ -48,9 +47,8 @@ def ProcessCreate(request, id_pet):
             # print('Process Create Validate Create Post')
             form.instance.pet_id = request.user.pet_set.get(id=id_pet)
             form.save()
-            return ProcessList(request, id_pet)
+            return redirect('process_detail', id_pet, form.instance.id)
         else:
-            print('/ No thanks/')
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -73,7 +71,7 @@ def ProcessUpdate(request, id_pet, id_pro):
             myprocess.weight = form['weight'].value()
 
             myprocess.save()
-            return ProcessList(request, id_pet)
+            return redirect('process_detail', id_pet, myprocess.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
@@ -89,7 +87,7 @@ def ProcessDelete(request, id_pet, id_pro):
     if request.method == 'POST':
         myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
         myprocess.delete()
-        return ProcessList(request, id_pet)
+        return redirect('process_list', id_pet)
     # if a GET (or any other method) we'll create a blank form
     else:
         myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)

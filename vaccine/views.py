@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.contrib.auth.decorators import login_required , permission_required
 # @login_required
@@ -42,7 +42,7 @@ def VaccineCreate(request, id_pet):
         if form.is_valid():
             form.instance.pet_id = request.user.pet_set.get(id=id_pet)
             form.save()
-            return VaccineList(request, id_pet)
+            return redirect('vaccine_list', id_pet, form.instance.id)
         else:
             print('/ No thanks/')
             print(form.errors)
@@ -63,7 +63,7 @@ def VaccineUpdate(request, id_pet, id_vac):
             myvaccine.name = form['name'].value()
 
             myvaccine.save()
-            return VaccineList(request, id_pet)
+            return redirect('vaccine_detail', id_pet, myvaccine.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
@@ -79,7 +79,7 @@ def VaccineDelete(request, id_pet, id_vac):
     if request.method == 'POST':
         myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
         myvaccine.delete()
-        return VaccineList(request, id_pet)
+        return redirect('vaccine_list', id_pet)
     else:
         myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
         form = VaccineForm()

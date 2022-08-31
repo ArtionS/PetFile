@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Paquete para pedir que se este en modo login y pedir permisos
 from django.contrib.auth.decorators import login_required , permission_required
 # @login_required
 # @permission_required('pet.view_pet', raise_exception=True)
-
 
 # Forms
 from .forms import PetForm
@@ -16,24 +15,14 @@ from pet_type.models import PetType
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
-
-    # print("Request")
-    # print(request)
-    # print("Reuqest Dic")
-    # print(request.__dict__)
-
     context = {
         'pets': request.user.pet_set.all()
     }
-
-    # print(context.__dict__)
-
     search_input = request.GET.get('search-area') or ''
     if search_input:
         context['pets'] = context['pets'].filter(name__icontains=search_input)
         # context['pets'] = context['pets'].filter(name__startswith=search_input)
     context['search_input'] = search_input
-
     return render(request, "pet/pet_list.html", context)
 
 
@@ -51,16 +40,13 @@ def PetCreate(request):
         if form.is_valid():
             form.instance.owner = request.user
             form.save()
-            return PetList(request)
+            return redirect('pet_detail', form.instance.id)
         else:
-            # print('/ No thanks/')
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PetForm()
         pet_type_list = PetType.objects.all()
-        # print("Lista aniales")
-        # print(pet_type_list)
     return render(request, 'pet/pet_form.html', {'form': form , 'pet_type_list': pet_type_list})
 
 
@@ -78,10 +64,12 @@ def PetUpdate(request, pk):
             mypet.gender = form['gender'].value()
             mypet.description = form['description'].value()
             mypet.birth_day = form['birth_day'].value()
-            mypet.picture = form['picture'].value()
+
+            if form['picture'].value():
+                mypet.picture = form['picture'].value()
 
             mypet.save()
-            return PetList(request)
+            return redirect('pet_detail', mypet.id)
         else:
             # print('/ No thanks/')
             print(form.errors)
@@ -99,7 +87,7 @@ def PetDelete(request, pk):
     if request.method == 'POST':
         mypet = request.user.pet_set.get(id=pk)
         mypet.delete()
-        return PetList(request)
+        return redirect('pet_list')
     # if a GET (or any other method) we'll create a blank form
     else:
         mypet = request.user.pet_set.get(id=pk)
