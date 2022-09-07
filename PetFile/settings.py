@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'vaccine.apps.VaccineConfig',
     'document.apps.DocumentConfig',
     'pet_type.apps.PetTypeConfig',
+    'veterinary.apps.VeterinaryConfig',
 
 ]
 

@@ -1,0 +1,23 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Pet Delete / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'vet_detail' hey %}">Go Back</a>
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete me "{{pet}}" ?  </p>
+
+    <br>
+    <img src="{{ pet.picture.url }}" width="150">
+    <br>
+    <br>
+
+    <input type="submit" value="Delete">
+</form>
+
+{% endblock %}

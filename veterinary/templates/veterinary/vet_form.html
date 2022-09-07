@@ -1,0 +1,75 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Vet Register / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{pet}} Vet Register {{pet.id}} </h1>
+<br>
+<a href="{% url 'pet_list' %}"> Go Back</a>
+<br>
+<br>
+
+    {% if pet.picture %}
+        {{ pet.picture }}
+
+        <img src="{{ pet.picture.url }}" width="400">
+    {% endif %}
+
+<br>
+<br>
+
+<div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type Animal</th>
+                <th scope="col">Raze</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Description</th>
+                <th scope="col">Birth Day</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-active">
+                <th scope="row">{{pet.id}}</th>
+                <td>{{pet.name}}</td>
+                <td>{{pet.type_animal}}</td>
+                <td>{{pet.raze}}</td>
+                <td>{{pet.gender}}</td>
+                <td>{{pet.description}}</td>
+                <td>{{pet.birth_day}}</td>
+
+                <td><a href="{% url 'vaccine_list' pet.id %}">Vacines</a> </td>
+                <td><a href="{% url 'process_list' pet.id %}">Processes</a> </td>
+                <td><a href="{% url 'pet_update' pet.id %}">Update</a> </td>
+            </tr>
+        </table>
+    <br>
+        <a href="{% url 'pet_delete' pet.id %}">Button Delete</a>
+</div>
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete me "{{pet}}" ?  </p>
+
+    <br>
+    <img src="{{ pet.picture.url }}" width="150">
+    <br>
+    <br>
+
+    <input type="submit" value="Delete">
+</form>
+
+
+{% endblock %}
