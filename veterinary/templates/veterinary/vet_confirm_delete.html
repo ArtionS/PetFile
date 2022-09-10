@@ -6,18 +6,20 @@
 
 {% block content %}
 
-<a href="{% url 'vet_detail' hey %}">Go Back</a>
+<a href="{% url 'vet_detail' vet.id %}">Go Back</a>
 
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete me "{{pet}}" ?  </p>
+    <p>
+        Are you sure you want to Remove this Veterinary from your Vet List "{{vet.vet_user.username}}" ?
+    </p>
+    <p>
+        If you remove this Veterinary, you are going to stop sharing your pets information with this veterinary
+    </p>
+    <br>
+    <br>
 
-    <br>
-    <img src="{{ pet.picture.url }}" width="150">
-    <br>
-    <br>
-
-    <input type="submit" value="Delete">
+    <input type="submit" class="btn btn-primary" value="Delete">
 </form>
 
 {% endblock %}

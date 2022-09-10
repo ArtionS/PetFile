@@ -40,6 +40,10 @@
     <br>
     <br>
     <input type="submit" class="btn btn-primary" value="Register">
+
+    {% if Register.checked %}
+        holitas
+    {% endif %}
 </form>
 <br>
 <p> Already have an account <a href="{% url 'login' %}"> Login </a></p>

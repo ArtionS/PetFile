@@ -11,14 +11,19 @@ from pet_type.models import PetType
 
 # Create your views here.
 
+from django.db.models import Count
+
 
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
-    context = {
-        'pets': request.user.pet_set.all()
-    }
+
     search_input = request.GET.get('search-area') or ''
+
+    context = {
+        'pets': request.user.pet_set.all(),
+    }
+
     if search_input:
         context['pets'] = context['pets'].filter(name__icontains=search_input)
         # context['pets'] = context['pets'].filter(name__startswith=search_input)
@@ -84,12 +89,10 @@ def PetUpdate(request, pk):
 @login_required
 @permission_required('pet.delete_pet', raise_exception=True)
 def PetDelete(request, pk):
+    mypet = request.user.pet_set.get(id=pk)
     if request.method == 'POST':
-        mypet = request.user.pet_set.get(id=pk)
         mypet.delete()
         return redirect('pet_list')
     # if a GET (or any other method) we'll create a blank form
     else:
-        mypet = request.user.pet_set.get(id=pk)
-        form = PetForm()
-    return render(request, 'pet/pet_confirm_delete.html', {'form': form, 'pet': mypet})
+        return render(request, 'pet/pet_confirm_delete.html', {'pet': mypet})

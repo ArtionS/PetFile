@@ -9,14 +9,6 @@
 <h1> {{pet}} Vet Detail {{pet.id}} </h1>
 <br>
 <a href="{% url 'vet_list' %}"> Go Back</a>
-<br>
-<br>
-
-    {% if pet.picture %}
-        {{ pet.picture }}
-
-        <img src="{{ pet.picture.url }}" width="400">
-    {% endif %}
 
 <br>
 <br>
@@ -33,15 +25,12 @@
           </thead>
           <tbody>
             <tr class="table-active">
-                <th scope="row">{{pet.id}}</th>
-                <td>{{pet.name}}</td>
-
-
-
+                <th scope="row">{{vet.id}}</th>
+                <td>{{vet.vet_user.username}}</td>
             </tr>
         </table>
     <br>
-        <a href="{% url 'vet_delete' hey %}"> Delete</a>
+        <a href="{% url 'vet_delete' vet.id %}"> Delete</a>
 </div>
 
 {% endblock %}

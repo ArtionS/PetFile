@@ -4,3 +4,5 @@ __pycahce__/**
 **/__pycache__
 
 db.sqlite3
+
+my.cnf
