@@ -8,6 +8,12 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 
 
+def USerList(request):
+    context = {
+        "vets": request.user.usertovet_set.all()
+    }
+    return render(request, "veterinary/vet_list.html", context)
+
 def VetList(request):
 
     # print("start ")

@@ -15,7 +15,6 @@ from django.utils.text import capfirst
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
-
 UserModel = get_user_model()
 
 
@@ -62,11 +61,13 @@ class UserCreationForm(forms.ModelForm):
     )
     group.widget.attrs.update({'class': 'form-check-input'})
 
-
     class Meta:
         model = User
-        fields = ("username",)
-        field_classes = {"username": UsernameField}
+        fields = ("username", "first_name", "last_name")
+        field_classes = {"username": UsernameField,
+                         "first_name": forms.CharField,
+                         "last_name": forms.CharField,
+                         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -76,7 +77,8 @@ class UserCreationForm(forms.ModelForm):
             ] = True
         #     TO decorate the username field
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
-
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

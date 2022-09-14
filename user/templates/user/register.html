@@ -1,4 +1,4 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block title %}
     Register / PetMedic
@@ -6,46 +6,84 @@
 
 {% block content %}
 
-<h1>Register</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div>
-        {{ form.username.errors }}
-        <label for="{{ form.username.id_for_label }}"> Username: </label>
-        {{ form.username }}
-        {{ form.help_text }}
-    </div>
-    <br>
-    <div>
-        {{ form.password1.errors }}
-        <label for="{{ form.password1.id_for_label }}"> password1: </label>
-        {{ form.password1 }}
-        {{ form.password1.help_text }}
-    </div>
-    <div>
-        {{ form.password2.errors }}
-        <label for="{{ form.password2.id_for_label }}"> password2: </label>
-        {{ form.password2 }}
-        {{ form.password2.help_text }}
-    </div>
-    <br>
-    <div class="form-check form-switch" >
-        {{ form.group.errors }}
-        <label for="{{ form.group.id_for_label }}"> {{ form.group.label}} :  </label>
-        {{ form.group }}
-        {{ form.group.help_text }}
-    </div>
-    <br>
-    <br>
-    <input type="submit" class="btn btn-primary" value="Register">
+    <div class="row justify-content-center">
 
-    {% if Register.checked %}
-        holitas
-    {% endif %}
-</form>
-<br>
-<p> Already have an account <a href="{% url 'login' %}"> Login </a></p>
+        <div class="col-6">
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <div class="container text-center">
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                <h2 class="card-title">Register</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+                            <div>
+                                {{ form.username.errors }}
+                                <label for="{{ form.username.id_for_label }}"> Username:  </label>
+                                {{ form.username }}
+                                {{ form.help_text }}
+                            </div>
+                            <br>
+                            <div>
+                                {{ form.password1.errors }}
+                                <label for="{{ form.password1.id_for_label }}"> password1: </label>
+                                {{ form.password1 }}
+                                {{ form.password1.help_text }}
+                            </div>
+                            <div>
+                                {{ form.password2.errors }}
+                                <label for="{{ form.password2.id_for_label }}"> password2: </label>
+                                {{ form.password2 }}
+                                {{ form.password2.help_text }}
+                            </div>
+                             <br>
+                            <div>
+                                {{ form.first_name.errors }}
+                                <label for="{{ form.first_name.id_for_label }}"> First Name: </label>
+                                {{ form.first_name }}
+                                {{ form.first_name.help_text }}
+                            </div>
+                            <br>
+                            <div>
+                                {{ form.last_name.errors }}
+                                <label for="{{ form.last_name.id_for_label }}"> Last Name: </label>
+                                {{ form.last_name }}
+                                {{ form.last_name.help_text }}
+                            </div>
+                            <br>
+                            <div class="form-check form-switch">
+                                {{ form.group.errors }}
+                                <label for="{{ form.group.id_for_label }}"> {{ form.group.label }} : </label>
+                                {{ form.group }}
+                                {{ form.group.help_text }}
+                            </div>
+                            <br>
+                            <p> Already have an account <a href="{% url 'login' %}"> Login </a></p>
+                            <br>
+
+
+
+
+                            <input type="submit" class="btn btn-primary" value="Register">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+
+
 
 {% endblock %}

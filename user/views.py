@@ -109,6 +109,8 @@ class RegisterPage(FormView):
     success_url = reverse_lazy('home_page')
 
     def form_valid(self, form):
+
+
         user = form.save()
         if user is not None:
             login(self.request, user)
@@ -119,6 +121,8 @@ class RegisterPage(FormView):
                 my_group = Group.objects.get(name='group_user')
                 my_group.user_set.add(user)
         return super(RegisterPage , self).form_valid(form)
+
+
 
     def get(self, *args, **kwargs):
         print("IN REGISTER PAGE : GET")
