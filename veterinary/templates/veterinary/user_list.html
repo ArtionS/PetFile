@@ -33,6 +33,7 @@ Clients List / PetMedic
             <td>{{user.username  }}</td>
             <td>{{user.first_name}}</td>
             <td>{{user.last_name}}</td>
+            <td><a href="{% url 'user_detail' user.id %}"> User Pet List </a></td>
 
         </tr>
         {% empty %}

@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 
 from .models import UserToVet
+from django.contrib.auth.models import User
+from pet.models import Pet
 
 
 def UserList(request):
@@ -23,8 +25,24 @@ def UserList(request):
     context = {
         "users" : users
     }
-
     return render(request, "veterinary/user_list.html", context)
+
+
+def UserDetail(request, id_user):
+
+    user = User.objects.get(id=id_user)
+    print(user.__dict__)
+    # print(user.id)
+    # print(user.username)
+
+    pets = Pet.objects.filter(owner=id_user)
+    print(pets)
+
+    context = {
+        "user": user,
+        "pets": pets,
+    }
+    return render(request, "veterinary/user_detail.html", context)
 
 
 def VetList(request):

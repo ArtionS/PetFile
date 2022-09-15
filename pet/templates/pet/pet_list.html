@@ -35,7 +35,6 @@
         <div class="row">
             {% for pet in pets %}
                 <div class="col-lg-4">
-
                     <div class="bs-component">
                         <div class="card mb-3">
                             <h3 class="card-header">{{ pet.name }}</h3>
@@ -91,6 +90,7 @@
                 {% empty %}
                 <h3> No pet in List </h3>
             {% endfor %}
+        </tbody>
         </table>
     </div>
 
