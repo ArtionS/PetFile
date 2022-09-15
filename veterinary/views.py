@@ -7,27 +7,27 @@ from django.shortcuts import render, redirect
 
 # from django.contrib.auth.models import User
 
+from .models import UserToVet
 
-def USerList(request):
+
+def UserList(request):
+    users = []
+
+    user_list = UserToVet.objects.filter(vet_user_id=request.user.id)
+
+    for userx in user_list:
+        us = userx.current_user.all()
+        for u in us:
+            users.append(u)
+
     context = {
-        "vets": request.user.usertovet_set.all()
+        "users" : users
     }
-    return render(request, "veterinary/vet_list.html", context)
+
+    return render(request, "veterinary/user_list.html", context)
+
 
 def VetList(request):
-
-    # print("start ")
-    #
-    # users = request.user.usertovet_set.all()
-    # for user in users:
-    #     print(user.vet_user.id)
-    #     print(user.vet_user.username)
-    #     print(user.vet_user.date_joined)
-    #     print(user.vet_user.first_name)
-    #     print(user.vet_user.last_name)
-    #     print(user.vet_user.email)
-    #
-    # print("ends")
 
     context = {
         "vets": request.user.usertovet_set.all()

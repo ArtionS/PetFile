@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from .views import VetList, VetDetail, VetCreate, VetDelete
+from .views import VetList, VetDetail, VetCreate, VetDelete, UserList
 
 
 # from django.contrib.auth.views import LogoutView
@@ -11,4 +11,6 @@ urlpatterns = [
     path('veterinary/<int:id_vet>/', VetDetail, name='vet_detail'),
     path('veterinary/create/<int:id_vet>/', VetCreate, name='vet_create'),
     path('veterinary/<int:id_vet>/delete/', VetDelete, name='vet_delete'),
+
+    path('users/', UserList, name='user_list'),
 ]
