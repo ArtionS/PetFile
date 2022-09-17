@@ -9,7 +9,6 @@ from django.shortcuts import render, redirect
 
 from .models import UserToVet
 from django.contrib.auth.models import User
-from pet.models import Pet
 
 
 def UserList(request):
@@ -31,11 +30,10 @@ def UserList(request):
 def UserDetail(request, id_user):
 
     user = User.objects.get(id=id_user)
-    print(user.__dict__)
-    # print(user.id)
-    # print(user.username)
 
-    pets = Pet.objects.filter(owner=id_user)
+    pets = user.pet_set.all()
+
+    # pets = Pet.objects.filter(owner=id_user)
     print(pets)
 
     context = {

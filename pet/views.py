@@ -1,29 +1,32 @@
 from django.shortcuts import render, redirect
 
-# Paquete para pedir que se este en modo login y pedir permisos
+# Decoradores para solicitar los permisos y que este logueado
 from django.contrib.auth.decorators import login_required , permission_required
 # @login_required
 # @permission_required('pet.view_pet', raise_exception=True)
 
-# Forms
+# Se importa el formulario de la mascota
 from .forms import PetForm
+# Se importa lalista de los tipos de animales
 from pet_type.models import PetType
 
 # Create your views here.
 
-from django.db.models import Count
 
-
+# Funcion que saca los datos necesarios para mostrar la lista de mascotas
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
 
+    # variable que puede afectar la busqyueda de mascotas
     search_input = request.GET.get('search-area') or ''
 
+    # se hace la peticion de todas las mascotas del ususario logeado
     context = {
         'pets': request.user.pet_set.all(),
     }
 
+    # Filtrado de las mascotas con respecto al serah_input
     if search_input:
         context['pets'] = context['pets'].filter(name__icontains=search_input)
         # context['pets'] = context['pets'].filter(name__startswith=search_input)
@@ -31,15 +34,18 @@ def PetList(request):
     return render(request, "pet/pet_list.html", context)
 
 
+# funcion que muestra los detalles de una mascota
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
 def PetDetail(request, pk):
     return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
 
 
+# funcion para rear una mascota ya sea POST or GET
 @login_required
 @permission_required('pet.add_pet', raise_exception=True)
 def PetCreate(request):
+    # Metodo POST Para dar de alta a una mascota
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
         if form.is_valid():
@@ -55,9 +61,11 @@ def PetCreate(request):
     return render(request, 'pet/pet_form.html', {'form': form , 'pet_type_list': pet_type_list})
 
 
+# funion que nos permite hacer un update a un masota
 @login_required
 @permission_required('pet.change_pet', raise_exception=True)
 def PetUpdate(request, pk):
+    # en el post asignamos los nuevos valores a las mascota si es que existen
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
         if form.is_valid():
@@ -86,10 +94,13 @@ def PetUpdate(request, pk):
     return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
 
 
+# funcino para borrar una mascota
 @login_required
 @permission_required('pet.delete_pet', raise_exception=True)
 def PetDelete(request, pk):
+
     mypet = request.user.pet_set.get(id=pk)
+    # Si se asepta el eliminar a la mascota se ejecuta el POST
     if request.method == 'POST':
         mypet.delete()
         return redirect('pet_list')

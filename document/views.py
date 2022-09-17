@@ -8,6 +8,7 @@ from .forms import DocumentForm
 # Create your views here.
 
 
+# funcion para mostrar lista de docuemntos
 @login_required
 @permission_required('document.view_document', raise_exception=True)
 def DocumentList(request, id_pet, id_pro):
@@ -15,6 +16,7 @@ def DocumentList(request, id_pet, id_pro):
     return redirect(request, 'process/process_detail', context)
 
 
+# Funcion para los detalles de un documento
 @login_required
 @permission_required('document.view_document', raise_exception=True)
 def DocumentDetail(request, id_pet, id_pro, id_doc):
@@ -26,6 +28,7 @@ def DocumentDetail(request, id_pet, id_pro, id_doc):
     return render(request , 'document/document_detail.html', context)
 
 
+# Funcion para crear un documento nuevo
 @login_required
 @permission_required('document.add_document', raise_exception=True)
 def DocumentCreate(request, id_pet, id_pro):
@@ -43,6 +46,7 @@ def DocumentCreate(request, id_pet, id_pro):
     return render(request, 'document/document_form.html', {'form': form, 'id_pet': id_pet, 'id_pro': id_pro})
 
 
+# Funcion para Actualizar un doumento
 @login_required
 @permission_required('document.change_document', raise_exception=True)
 def DocumentUpdate(request, id_pet, id_pro, id_doc):
@@ -68,6 +72,7 @@ def DocumentUpdate(request, id_pet, id_pro, id_doc):
                   {'form': form, 'document': mydocument, 'id_pet': id_pet, 'id_pro': id_pro})
 
 
+# Funcion para eliminar un documento
 @login_required
 @permission_required('document.delete_document', raise_exception=True)
 def DocumentDelete(request, id_pet, id_pro, id_doc):

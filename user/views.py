@@ -34,6 +34,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.views import RedirectURLMixin
 
 
+# vista para deplegar la pagina de login
 class LoginView(RedirectURLMixin, FormView):
     """
     Display the login form and handle the login action.
@@ -93,6 +94,7 @@ class LoginView(RedirectURLMixin, FormView):
         return context
 
 
+# Vista para desplegar el login
 class UserLoginView(LoginView):
     template_name = 'user/login.html'
     fields = '__all__'
@@ -102,6 +104,7 @@ class UserLoginView(LoginView):
         return reverse_lazy('home_page')
 
 
+# vista para deplegas la pagina de registro
 class RegisterPage(FormView):
     template_name = 'user/register.html'
     form_class = UserCreationForm

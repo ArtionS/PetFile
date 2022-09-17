@@ -75,7 +75,7 @@ class UserCreationForm(forms.ModelForm):
             self.fields[self._meta.model.USERNAME_FIELD].widget.attrs[
                 "autofocus"
             ] = True
-        #     TO decorate the username field
+        #     TO decorate the fields to use in the register page
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
         self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
