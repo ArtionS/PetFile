@@ -14,15 +14,6 @@ from django.contrib.auth.models import User
 
 def UserList(request):
 
-    print("Start")
-
-    list_users = request.user.usertovet_set.all()
-
-    print(list_users._query)
-
-
-    print("End")
-
     users = []
 
     user_list = UserToVet.objects.filter(vet_user_id=request.user.id)
@@ -45,13 +36,21 @@ def UserDetail(request, id_user):
     pets = user.pet_set.all()
 
     # pets = Pet.objects.filter(owner=id_user)
-    print(pets)
+    # print(pets)
 
     context = {
         "user": user,
         "pets": pets,
     }
     return render(request, "veterinary/user_detail.html", context)
+
+
+def UserPetDetail(request):
+
+    context = {
+
+    }
+    return render(request, "veterinary/user_list.html", context)
 
 
 # Funciones para a muestra de los veterinarios a los usuarios
