@@ -4,6 +4,7 @@ from pet.models import Pet
 # Create your models here.
 
 
+# modelo de los procesos
 class Process(models.Model):
     CONSULT = 'C'
     PROCESS = 'P'
@@ -12,6 +13,7 @@ class Process(models.Model):
         (PROCESS, 'Process'),
     ]
 
+# asignacion de la mascota a la cual le pertenece el proceso
     pet_id = models.ForeignKey(
         Pet,
         on_delete=models.CASCADE,

@@ -7,11 +7,22 @@ from django.shortcuts import render, redirect
 
 # from django.contrib.auth.models import User
 
+# Importacion de modelos de Usuario y de UsertoVet
 from .models import UserToVet
 from django.contrib.auth.models import User
 
 
 def UserList(request):
+
+    print("Start")
+
+    list_users = request.user.usertovet_set.all()
+
+    print(list_users._query)
+
+
+    print("End")
+
     users = []
 
     user_list = UserToVet.objects.filter(vet_user_id=request.user.id)
@@ -43,6 +54,7 @@ def UserDetail(request, id_user):
     return render(request, "veterinary/user_detail.html", context)
 
 
+# Funciones para a muestra de los veterinarios a los usuarios
 def VetList(request):
 
     context = {

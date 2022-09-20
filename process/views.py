@@ -1,8 +1,6 @@
 from django.shortcuts import render , redirect
 
-# Paquete para pedir que se este en modo login
-# from django.contrib.auth.mixins import LoginRequiredMixin
-
+# Se importa
 from django.contrib.auth.decorators import login_required , permission_required
 # @login_required
 # @permission_required('pet.view_pet', raise_exception=True)
@@ -10,6 +8,7 @@ from django.contrib.auth.decorators import login_required , permission_required
 from .forms import ProcessForm
 
 
+# Funcion para mostrar y mandar la informacion par la vista de Procesos
 @login_required
 @permission_required('process.view_process', raise_exception=True)
 def ProcessList(request, id_pet):
@@ -26,6 +25,7 @@ def ProcessList(request, id_pet):
     return render(request, "process/process_list.html", context)
 
 
+# Funcion para mostrar los detalles de lso procesos
 @login_required
 @permission_required('process.view_process', raise_exception=True)
 def ProcessDetail(request, id_pet, id_pro):
@@ -37,6 +37,7 @@ def ProcessDetail(request, id_pet, id_pro):
     return render(request, "process/process_detail.html", context)
 
 
+# vista para mostrar el forulario del proceso y su registro del proceso
 @login_required
 @permission_required('process.add_process', raise_exception=True)
 def ProcessCreate(request, id_pet):
@@ -57,6 +58,7 @@ def ProcessCreate(request, id_pet):
     return render(request, "process/process_form.html", {'form': form, 'id_pet': id_pet})
 
 
+# Mustra y proceso para actualizar los procesos
 @login_required
 @permission_required('process.change_process', raise_exception=True)
 def ProcessUpdate(request, id_pet, id_pro):
@@ -81,6 +83,7 @@ def ProcessUpdate(request, id_pet, id_pro):
     return render(request, 'process/process_form.html', {'form': form, 'process': myprocess, 'id_pet': id_pet})
 
 
+# Proceso para eliminar un proceso de la mascota
 @login_required
 @permission_required('process.delete_process', raise_exception=True)
 def ProcessDelete(request, id_pet, id_pro):

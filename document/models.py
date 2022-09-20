@@ -5,7 +5,9 @@ from process.models import Process
 # Create your models here.
 
 
+# Modelo para los docuemntos de los procesos
 class Document(models.Model):
+    # se le asigna el proceso al que pertenece
     pro_id = models.ForeignKey(
         Process,
         on_delete=models.CASCADE,
