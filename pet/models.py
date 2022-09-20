@@ -1,10 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
+# modelos para la creacion de la mascota
 
 
 class Pet(models.Model):
+    # asignaion  del dueño de la mascota
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -12,6 +15,7 @@ class Pet(models.Model):
         blank=True,
     )
 
+    # opciones para el seo de la mascota
     FEMALE = 'F'
     MALE = 'M'
     GENDER_CHOICES = [
@@ -21,7 +25,9 @@ class Pet(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500)
+
     type_animal = models.CharField(max_length=500)
+
     raze = models.CharField(max_length=500, null=True, blank=True)
     gender = models.CharField(
         max_length=2,

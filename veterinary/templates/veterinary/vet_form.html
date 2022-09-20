@@ -1,0 +1,45 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Vet Register / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{pet}} Vet Register {{pet.id}} </h1>
+<br>
+<br>
+    {% if pet.picture %}
+        {{ pet.picture }}
+        <img src="{{ pet.picture.url }}" width="400">
+    {% endif %}
+<br>
+<br>
+<div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-active">
+                <th scope="row">{{pet.id}}</th>
+                <td>{{pet.name}}</td>
+            </tr>
+        </table>
+</div>
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    <p>I want to share my information with this veterinary "{{pet}}" ?  </p>
+    <br>
+
+    <input type="submit" value="Delete">
+</form>
+
+
+{% endblock %}

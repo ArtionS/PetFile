@@ -1,20 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 
-# Paquete para pedir que se este en modo login
-# from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.contrib.auth.decorators import login_required
-# @login_required()
+# Se importa
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('pet.view_pet', raise_exception=True)
 
 from .forms import ProcessForm
 
-@login_required()
+
+# Funcion para mostrar y mandar la informacion par la vista de Procesos
+@login_required
+@permission_required('process.view_process', raise_exception=True)
 def ProcessList(request, id_pet):
     context = {
         'processes': request.user.pet_set.get(id=id_pet).process_set.all(),
         'id_pet': id_pet
     }
-
     search_input = request.GET.get('search-area') or ''
     if search_input:
         context['processes'] = context['processes'].filter(title__icontains=search_input)
@@ -23,7 +24,10 @@ def ProcessList(request, id_pet):
 
     return render(request, "process/process_list.html", context)
 
-@login_required()
+
+# Funcion para mostrar los detalles de lso procesos
+@login_required
+@permission_required('process.view_process', raise_exception=True)
 def ProcessDetail(request, id_pet, id_pro):
     context = {
         'process' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro),
@@ -32,7 +36,10 @@ def ProcessDetail(request, id_pet, id_pro):
     }
     return render(request, "process/process_detail.html", context)
 
-@login_required()
+
+# vista para mostrar el forulario del proceso y su registro del proceso
+@login_required
+@permission_required('process.add_process', raise_exception=True)
 def ProcessCreate(request, id_pet):
     if request.method == 'POST':
         # print('Process Create Post')
@@ -41,9 +48,8 @@ def ProcessCreate(request, id_pet):
             # print('Process Create Validate Create Post')
             form.instance.pet_id = request.user.pet_set.get(id=id_pet)
             form.save()
-            return ProcessList(request, id_pet)
+            return redirect('process_detail', id_pet, form.instance.id)
         else:
-            print('/ No thanks/')
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -51,7 +57,10 @@ def ProcessCreate(request, id_pet):
         form = ProcessForm()
     return render(request, "process/process_form.html", {'form': form, 'id_pet': id_pet})
 
-@login_required()
+
+# Mustra y proceso para actualizar los procesos
+@login_required
+@permission_required('process.change_process', raise_exception=True)
 def ProcessUpdate(request, id_pet, id_pro):
     if request.method == 'POST':
         form = ProcessForm(request.POST, request.FILES)
@@ -64,7 +73,7 @@ def ProcessUpdate(request, id_pet, id_pro):
             myprocess.weight = form['weight'].value()
 
             myprocess.save()
-            return ProcessList(request, id_pet)
+            return redirect('process_detail', id_pet, myprocess.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
@@ -73,12 +82,15 @@ def ProcessUpdate(request, id_pet, id_pro):
         form = ProcessForm()
     return render(request, 'process/process_form.html', {'form': form, 'process': myprocess, 'id_pet': id_pet})
 
-@login_required()
+
+# Proceso para eliminar un proceso de la mascota
+@login_required
+@permission_required('process.delete_process', raise_exception=True)
 def ProcessDelete(request, id_pet, id_pro):
     if request.method == 'POST':
         myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
         myprocess.delete()
-        return ProcessList(request, id_pet)
+        return redirect('process_list', id_pet)
     # if a GET (or any other method) we'll create a blank form
     else:
         myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)

@@ -1,0 +1,45 @@
+{% extends 'main.html'%}
+
+{% block title %}
+Clients List / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1>Clients List </h1>
+
+<form method="GET">
+    <input type="text" name="search-area" value="{{search_input}}">
+    <input type="submit" value="Search">
+</form>
+<br>
+<br>
+<div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+
+        <tr class="table-active">
+            <th scope="row">{{ user.id }}</th>
+            <td>{{user.username  }}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td><a href="{% url 'user_detail' user.id %}"> User Pet List </a></td>
+
+        </tr>
+        {% empty %}
+        <h3> No Users in List </h3>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

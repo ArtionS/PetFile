@@ -51,32 +51,37 @@
                     <a class="nav-link" href="{% url 'pet_list' %}">Pets</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vet_list' %}">Vets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_list' %}">Users</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'about_page' %}">About</a>
                 </li>
 
-{#                <li class="nav-item dropdown">#}
-{#                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"#}
-{#                       aria-haspopup="true" aria-expanded="false">Dropdown</a>#}
-{#                    <div class="dropdown-menu">#}
-{#                        <a class="dropdown-item" href="#">Action</a>#}
-{#                        <a class="dropdown-item" href="#">Another action</a>#}
-{#                        <a class="dropdown-item" href="#">Something else here</a>#}
-{#                        <div class="dropdown-divider"></div>#}
-{#                        <a class="dropdown-item" href="#">Separated link</a>#}
-{#                    </div>#}
-{#                </li>#}
+                {#                <li class="nav-item dropdown">#}
+                {#                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"#}
+                {#                       aria-haspopup="true" aria-expanded="false">Dropdown</a>#}
+                {#                    <div class="dropdown-menu">#}
+                {#                        <a class="dropdown-item" href="#">Action</a>#}
+                {#                        <a class="dropdown-item" href="#">Another action</a>#}
+                {#                        <a class="dropdown-item" href="#">Something else here</a>#}
+                {#                        <div class="dropdown-divider"></div>#}
+                {#                        <a class="dropdown-item" href="#">Separated link</a>#}
+                {#                    </div>#}
+                {#                </li>#}
             </ul>
             <div class="d-flex">
 
                 {% if request.user.is_authenticated %}
-                <p style=" margin-right: 0.5em; ">
-                    {{request.user}}
-                </p>
-                |
-                <a style=" margin-left: 0.5em; " href="{% url 'logout' %}">Logout</a>
+
+                    <h5 style=" margin-right: 0.5em; margin-top: 0.4em; ">{{ request.user }}</h5>
+
+                    <a style=" margin-left: 0.5em; " href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 
                 {% else %}
-                <a style=" margin-left: 0.5em; " href="{% url 'login' %}">Login</a>
+                    <a style=" margin-left: 0.5em; " href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
                 {% endif %}
             </div>

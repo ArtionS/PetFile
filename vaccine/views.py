@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from django.contrib.auth.decorators import login_required
-# @login_required()
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('pet.view_pet', raise_exception=True)
 
 from .forms import VaccineForm
 
-@login_required()
+
+@login_required
+@permission_required('vaccine.view_vaccine', raise_exception=True)
 def VaccineList(request, id_pet):
     context = {
         'vaccines': request.user.pet_set.get(id=id_pet).vaccine_set.all(),
@@ -20,7 +23,9 @@ def VaccineList(request, id_pet):
 
     return render(request, "vaccine/vaccine_list.html", context)
 
-@login_required()
+
+@login_required
+@permission_required('vaccine.view_vaccine', raise_exception=True)
 def VaccineDetail(request, id_pet, id_vac):
     context = {
         'vaccine': request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac),
@@ -28,14 +33,16 @@ def VaccineDetail(request, id_pet, id_vac):
     }
     return render(request, "vaccine/vaccine_detail.html", context)
 
-@login_required()
+
+@login_required
+@permission_required('vaccine.add_vaccine', raise_exception=True)
 def VaccineCreate(request, id_pet):
     if request.method == 'POST':
         form = VaccineForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.pet_id = request.user.pet_set.get(id=id_pet)
             form.save()
-            return VaccineList(request, id_pet)
+            return redirect('vaccine_list', id_pet, form.instance.id)
         else:
             print('/ No thanks/')
             print(form.errors)
@@ -44,7 +51,9 @@ def VaccineCreate(request, id_pet):
         form = VaccineForm()
     return render(request, "vaccine/vaccine_form.html", {'form': form, 'id_pet': id_pet})
 
-@login_required()
+
+@login_required
+@permission_required('vaccine.change_vaccine', raise_exception=True)
 def VaccineUpdate(request, id_pet, id_vac):
     if request.method == 'POST':
         form = VaccineForm(request.POST, request.FILES)
@@ -54,7 +63,7 @@ def VaccineUpdate(request, id_pet, id_vac):
             myvaccine.name = form['name'].value()
 
             myvaccine.save()
-            return VaccineList(request, id_pet)
+            return redirect('vaccine_detail', id_pet, myvaccine.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
@@ -63,12 +72,14 @@ def VaccineUpdate(request, id_pet, id_vac):
         form = VaccineForm()
     return render(request, 'process/process_form.html', {'form': form, 'vaccine': myvaccine, 'id_pet': id_pet})
 
-@login_required()
+
+@login_required
+@permission_required('vaccine.delete_vaccine', raise_exception=True)
 def VaccineDelete(request, id_pet, id_vac):
     if request.method == 'POST':
         myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
         myvaccine.delete()
-        return VaccineList(request, id_pet)
+        return redirect('vaccine_list', id_pet)
     else:
         myvaccine = request.user.pet_set.get(id=id_pet).vaccine_set.get(id=id_vac)
         form = VaccineForm()

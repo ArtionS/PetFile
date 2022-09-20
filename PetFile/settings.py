@@ -45,12 +45,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My Apps
+    # aplicacion para las masotas
     'pet.apps.PetConfig',
+    # aplicacion para las aginas que no se ligan a una apliacion espesifica
     'page.apps.PageConfig',
+    # aplicaion para el registro login del proyecto
     'user.apps.UserConfig',
+    # aplicacion que se encarga del manejo de los procesos de las mascotas
     'process.apps.ProcessConfig',
+    # aplicacion para administrar las vacunas de las mascotas
     'vaccine.apps.VaccineConfig',
-    'document.apps.DocumentConfig'
+    # aplicacion que toma los doumentos de los procesos
+    'document.apps.DocumentConfig',
+    # aplicacion para administrar los tipos de animales
+    'pet_type.apps.PetTypeConfig',
+    # aplicacion que administra las vistas y procesos que hace un veterinario
+    'veterinary.apps.VeterinaryConfig',
 
 ]
 
@@ -69,6 +79,7 @@ ROOT_URLCONF = 'PetFile.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # directorio donde se guardarian los templates de las aplicaciones
         'DIRS': [
             BASE_DIR / 'templates'
         ],
@@ -90,10 +101,14 @@ WSGI_APPLICATION = 'PetFile.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# Apartado de configuracion de la base de datos del proyecto
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE' : 'django.db.backends.mysql',
+        'OPTIONS' : {
+            # aqui se asigna que se lea el archivo en donde se enuentra lo necesario para hacer la coneccion d ela base de datos
+            'read_default_file' : os.path.join(BASE_DIR, "my.cnf")
+        }
     }
 }
 
@@ -128,11 +143,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Ruteo de hacia a donde se quiere enviar a las personas que no estan logeadas
 LOGIN_URL = 'login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+# apartado de asignacion de directorio de archivos estaticos (CSS)
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [

@@ -1,60 +1,71 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Paquete para pedir que se este en modo login
-from django.contrib.auth.mixins import LoginRequiredMixin
+# Decoradores para solicitar los permisos y que este logueado
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('pet.view_pet', raise_exception=True)
 
-from django.contrib.auth.decorators import login_required
-# @login_required()
-
-# Forms
+# Se importa el formulario de la mascota
 from .forms import PetForm
+# Se importa lalista de los tipos de animales
+from pet_type.models import PetType
 
 # Create your views here.
 
-@login_required()
+
+# Funcion que saca los datos necesarios para mostrar la lista de mascotas
+@login_required
+@permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
 
-    print("Request")
-    print(request)
-    print("Reuqest Dic")
-    print(request.__dict__)
+    # variable que puede afectar la busqyueda de mascotas
+    search_input = request.GET.get('search-area') or ''
 
+    # se hace la peticion de todas las mascotas del ususario logeado
     context = {
-        'pets': request.user.pet_set.all()
+        'pets': request.user.pet_set.all(),
     }
 
-    # print(context.__dict__)
-
-    search_input = request.GET.get('search-area') or ''
+    # Filtrado de las mascotas con respecto al serah_input
     if search_input:
         context['pets'] = context['pets'].filter(name__icontains=search_input)
         # context['pets'] = context['pets'].filter(name__startswith=search_input)
     context['search_input'] = search_input
-
     return render(request, "pet/pet_list.html", context)
 
-@login_required()
+
+# funcion que muestra los detalles de una mascota
+@login_required
+@permission_required('pet.view_pet', raise_exception=True)
 def PetDetail(request, pk):
     return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
 
-@login_required()
+
+# funcion para rear una mascota ya sea POST or GET
+@login_required
+@permission_required('pet.add_pet', raise_exception=True)
 def PetCreate(request):
+    # Metodo POST Para dar de alta a una mascota
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.owner = request.user
             form.save()
-            return PetList(request)
+            return redirect('pet_detail', form.instance.id)
         else:
-            # print('/ No thanks/')
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PetForm()
-    return render(request, 'pet/pet_form.html', {'form': form})
+        pet_type_list = PetType.objects.all()
+    return render(request, 'pet/pet_form.html', {'form': form , 'pet_type_list': pet_type_list})
 
-@login_required()
+
+# funion que nos permite hacer un update a un masota
+@login_required
+@permission_required('pet.change_pet', raise_exception=True)
 def PetUpdate(request, pk):
+    # en el post asignamos los nuevos valores a las mascota si es que existen
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
         if form.is_valid():
@@ -66,10 +77,12 @@ def PetUpdate(request, pk):
             mypet.gender = form['gender'].value()
             mypet.description = form['description'].value()
             mypet.birth_day = form['birth_day'].value()
-            mypet.picture = form['picture'].value()
+
+            if form['picture'].value():
+                mypet.picture = form['picture'].value()
 
             mypet.save()
-            return PetList(request)
+            return redirect('pet_detail', mypet.id)
         else:
             # print('/ No thanks/')
             print(form.errors)
@@ -80,14 +93,17 @@ def PetUpdate(request, pk):
         form = PetForm()
     return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
 
-@login_required()
+
+# funcino para borrar una mascota
+@login_required
+@permission_required('pet.delete_pet', raise_exception=True)
 def PetDelete(request, pk):
+
+    mypet = request.user.pet_set.get(id=pk)
+    # Si se asepta el eliminar a la mascota se ejecuta el POST
     if request.method == 'POST':
-        mypet = request.user.pet_set.get(id=pk)
         mypet.delete()
-        return PetList(request)
+        return redirect('pet_list')
     # if a GET (or any other method) we'll create a blank form
     else:
-        mypet = request.user.pet_set.get(id=pk)
-        form = PetForm()
-    return render(request, 'pet/pet_confirm_delete.html', {'form': form, 'pet': mypet})
+        return render(request, 'pet/pet_confirm_delete.html', {'pet': mypet})

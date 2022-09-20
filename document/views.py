@@ -1,17 +1,24 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.decorators import login_required
-# @login_required()
+from django.contrib.auth.decorators import login_required , permission_required
+# @login_required
+# @permission_required('vaccine.view_vaccine', raise_exception=True)
 
 from .forms import DocumentForm
 # Create your views here.
 
-@login_required()
+
+# funcion para mostrar lista de docuemntos
+@login_required
+@permission_required('document.view_document', raise_exception=True)
 def DocumentList(request, id_pet, id_pro):
     context = {'id_pet': id_pet, 'id_pro': id_pro}
     return redirect(request, 'process/process_detail', context)
 
-@login_required()
+
+# Funcion para los detalles de un documento
+@login_required
+@permission_required('document.view_document', raise_exception=True)
 def DocumentDetail(request, id_pet, id_pro, id_doc):
     context = {
         'id_pet' : id_pet,
@@ -20,7 +27,10 @@ def DocumentDetail(request, id_pet, id_pro, id_doc):
     }
     return render(request , 'document/document_detail.html', context)
 
-@login_required()
+
+# Funcion para crear un documento nuevo
+@login_required
+@permission_required('document.add_document', raise_exception=True)
 def DocumentCreate(request, id_pet, id_pro):
     if request.method == "POST":
         form = DocumentForm(request.POST, request.FILES)
@@ -35,7 +45,10 @@ def DocumentCreate(request, id_pet, id_pro):
         form = DocumentForm()
     return render(request, 'document/document_form.html', {'form': form, 'id_pet': id_pet, 'id_pro': id_pro})
 
-@login_required()
+
+# Funcion para Actualizar un doumento
+@login_required
+@permission_required('document.change_document', raise_exception=True)
 def DocumentUpdate(request, id_pet, id_pro, id_doc):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -43,9 +56,11 @@ def DocumentUpdate(request, id_pet, id_pro, id_doc):
             mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)
 
             mydocument.name = form['name'].value()
-            mydocument.document = form['document'].value()
-            mydocument.save()
 
+            if form['document'].value():
+                mydocument.document = form['document'].value()
+
+            mydocument.save()
             return redirect('document_detail' , id_pet , id_pro , mydocument.id)
         else:
             print(form.errors)
@@ -57,12 +72,14 @@ def DocumentUpdate(request, id_pet, id_pro, id_doc):
                   {'form': form, 'document': mydocument, 'id_pet': id_pet, 'id_pro': id_pro})
 
 
-@login_required()
+# Funcion para eliminar un documento
+@login_required
+@permission_required('document.delete_document', raise_exception=True)
 def DocumentDelete(request, id_pet, id_pro, id_doc):
     if request.method == 'POST':
         mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)
         mydocument.delete()
-        return redirect('process_detail' , id_pet , id_pro)
+        return redirect('process_detail' , id_pet, id_pro)
     # if a GET (or any other method) we'll create a blank form
     else:
         mydocument = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.get(id=id_doc)

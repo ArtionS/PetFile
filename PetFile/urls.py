@@ -27,4 +27,5 @@ urlpatterns = [
     path('', include('process.urls')),
     path('', include('vaccine.urls')),
     path('', include('document.urls')),
+    path('', include('veterinary.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

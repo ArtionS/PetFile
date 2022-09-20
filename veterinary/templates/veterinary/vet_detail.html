@@ -1,0 +1,36 @@
+{% extends 'main.html'%}
+
+{% block title %}
+    Vet Detail / PetMedic
+{% endblock %}
+
+{% block content %}
+
+<h1> {{pet}} Vet Detail {{pet.id}} </h1>
+<br>
+<a href="{% url 'vet_list' %}"> Go Back</a>
+
+<br>
+<br>
+
+<div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-active">
+                <th scope="row">{{vet.id}}</th>
+                <td>{{vet.vet_user.username}}</td>
+            </tr>
+        </table>
+    <br>
+        <a href="{% url 'vet_delete' vet.id %}"> Delete</a>
+</div>
+
+{% endblock %}

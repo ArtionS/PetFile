@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import PetType
+from .models import UserToVet
 
 # Register your models here.
 
-admin.site.register(PetType)
+admin.site.register(UserToVet)
