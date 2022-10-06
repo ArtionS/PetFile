@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    UserPetDetail / PetMedic
+{% endblock %}
+
+{% block content %}
+
+    <h1> {{ pet.name }} User Pet Details </h1>
+    <br>
+    <a href="" class="btn btn-secondary"> Go Back (Pendiente)</a>
+    <br>
+    <br>
+    <div class="container bcontent">
+        <div class="card" style="width: 500px;">
+            <div class="row no-gutters">
+                <div class="col-sm-5">
+                    <img class="card-img" src="{{ pet.picture.url }}">
+                    <div class="card-body" style="text-align:center;">
+                        <a href="" class="btn btn-info">Update</a>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        <h5 class="card-header" style="text-align:center;">{{ pet.name }}</h5>
+
+                        <ul class="list-group list-group-flush" style="list-style: none;">
+                            <li>Type Animal : {{ pet.type_animal }}</li>
+                            <li>Raze : {{ pet.raze }}</li>
+                            <li>Gender : {{ pet.gender }}</li>
+                            <li>Birth Day : {{ pet.birth_day }}</li>
+                            <li>Description : {{ pet.description }}</li>
+                        </ul>
+
+                        <br>
+                        <div class="card-body" style="text-align:center;">
+                            <a href="" class="btn btn-primary">Vacines</a>
+                            <a href="" class="btn btn-primary">Processes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type Animal</th>
+                <th scope="col">Raze</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Description</th>
+                <th scope="col">Birth Day</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-active">
+                <th scope="row">{{ pet.id }}</th>
+                <td>{{ pet.name }}</td>
+                <td>{{ pet.type_animal }}</td>
+                <td>{{ pet.raze }}</td>
+                <td>{{ pet.gender }}</td>
+                <td>{{ pet.description }}</td>
+                <td>{{ pet.birth_day }}</td>
+
+                <td><a href="">Vacines</a></td>
+                <td><a href="">Processes</a></td>
+                <td><a href="">Update</a></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <br>
+
+{% endblock %}

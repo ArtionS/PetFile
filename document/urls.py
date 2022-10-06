@@ -6,6 +6,7 @@ from .views import DocumentList,\
     DocumentDelete
 
 urlpatterns = [
+    # URL's dedicadas a Usuarios y Admins
     path('pet/<int:id_pet>/process/<int:id_pro>/documents/', DocumentList, name='document_list'),
     path('pet/<int:id_pet>/process/<int:id_pro>/document/<int:id_doc>/', DocumentDetail, name='document_detail'),
     path('pet/<int:id_pet>/process/<int:id_pro>/document/create/', DocumentCreate, name='document_create'),

@@ -19,6 +19,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
+                <th scope="col"></th>
 
 
             </tr>
@@ -26,11 +27,12 @@
           <tbody>
             <tr class="table-active">
                 <th scope="row">{{vet.id}}</th>
-                <td>{{vet.vet_user.username}}</td>
+                <td>{{vet.username}}</td>
+                <td><a href="{% url 'vet_delete' vet.id %}"> Delete</a></td>
             </tr>
         </table>
     <br>
-        <a href="{% url 'vet_delete' vet.id %}"> Delete</a>
+
 </div>
 
 {% endblock %}

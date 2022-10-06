@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import UserToVet
+from .models import ConectionUV
 
 # Register your models here.
 
-admin.site.register(UserToVet)
+admin.site.register(ConectionUV)

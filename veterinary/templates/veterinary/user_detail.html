@@ -1,12 +1,12 @@
 {% extends 'main.html' %}
 
 {% block title %}
-    Clients List / PetMedic
+    User Details / PetMedic
 {% endblock %}
 
 {% block content %}
 
-    <h1>User Pet List </h1>
+    <h1>User Details </h1>
 
     <form method="GET">
         <input type="text" name="search-area" value="{{ search_input }}">
@@ -53,7 +53,7 @@
                         <td>{{ pet.name }}</td>
                         <td>{{ pet.type_animal }}</td>
                         <td>{{ pet.gender }}</td>
-                        <td><a href="{% url 'pet_detail' pet.id %}">Button Detail</a></td>
+                        <td><a href="{% url 'pet_detail' user.id pet.id %}">Button Detail</a></td>
                     </tr>
                     {% empty %}
                     <h3> No pet in List </h3>
@@ -82,7 +82,7 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.first_name }}</td>
                     <td>{{ user.last_name }}</td>
-                    <td><a href="{% url 'user_detail' user.id %}"> User Pet List </a></td>
+                    <td><a href="{% url 'user_pet_detail' user.id user.id %}"> User Pet List </a></td>
 
                 </tr>
                 {% empty %}

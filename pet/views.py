@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required , permission_required
 
 # Se importa el formulario de la mascota
 from .forms import PetForm
-# Se importa lalista de los tipos de animales
+"""
+    Se importa la lista de los tipos de animaless
+"""
 from pet_type.models import PetType
 
 # Create your views here.
@@ -98,7 +100,6 @@ def PetUpdate(request, pk):
 @login_required
 @permission_required('pet.delete_pet', raise_exception=True)
 def PetDelete(request, pk):
-
     mypet = request.user.pet_set.get(id=pk)
     # Si se asepta el eliminar a la mascota se ejecuta el POST
     if request.method == 'POST':
