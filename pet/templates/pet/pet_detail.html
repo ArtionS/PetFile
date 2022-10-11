@@ -44,7 +44,7 @@
                                         <a href="{% url 'process_list' pet.id %}" class="btn btn-primary">Processes</a>
                                     </div>
                                     <div class="card-body" style="text-align:center;">
-                                        <a href="{% url 'pet_update' pet.id %}" class="btn btn-info">Update</a>
+                                        <a href="{% url 'pet_update' pet.owner.id pet.id %}" class="btn btn-info">Update</a>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
 
                 <td><a href="{% url 'vaccine_list' pet.id %}">Vacines</a></td>
                 <td><a href="{% url 'process_list' pet.id %}">Processes</a></td>
-                <td><a href="{% url 'pet_update' pet.id %}">Update</a></td>
+                <td><a href="{% url 'pet_update' pet.owner.id pet.id %}">Update</a></td>
             </tr>
         </table>
 

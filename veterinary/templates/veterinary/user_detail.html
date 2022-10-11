@@ -8,11 +8,28 @@
 
     <h1>User Details </h1>
 
-    <form method="GET">
-        <input type="text" name="search-area" value="{{ search_input }}">
-        <input type="submit" value="Search">
-    </form>
-    <br>
+    <div class="row">
+        <div class="col-lg-4">
+            <form method="GET">
+                <div class="form-group">
+
+                    <div class="input-group mb-3">
+                        <input value="{{ search_input }}" name="search-area" type="text" class="form-control"
+                               placeholder="Name's Pet"
+                               aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button value="Search" class="btn btn-secondary" type="submit" id="button-addon2">Search
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-8">
+            <div style=" float: right;">
+                <a href="{% url 'pet_create' user.id %}" class="btn btn-success">Add New Pet</a>
+            </div>
+        </div>
+    </div>
     <br>
     <div class="row justify-content-start">
         <div class="col-4">
@@ -53,7 +70,7 @@
                         <td>{{ pet.name }}</td>
                         <td>{{ pet.type_animal }}</td>
                         <td>{{ pet.gender }}</td>
-                        <td><a href="{% url 'pet_detail' user.id pet.id %}">Button Detail</a></td>
+                        <td><a href="{% url 'user_pet_detail' user.id pet.id %}">Button Detail</a></td>
                     </tr>
                     {% empty %}
                     <h3> No pet in List </h3>
