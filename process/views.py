@@ -5,16 +5,40 @@ from django.contrib.auth.decorators import login_required , permission_required
 # @login_required
 # @permission_required('pet.view_pet', raise_exception=True)
 
+"""
+Import the Form Tp Create an Edit Process
+"""
 from .forms import ProcessForm
 
+"""
+Importacion el modelo de coneccion para asignacion de dueño a la mascota
+"""
+from veterinary.models import ConectionUV
 
-# Funcion para mostrar y mandar la informacion par la vista de Procesos
+
 @login_required
 @permission_required('process.view_process', raise_exception=True)
-def ProcessList(request, id_pet):
+def ProcessList(request, id_user, id_pet):
+    # lista de procesos
+    processes = {}
+    """
+    Validar si es usuario o veterinario
+    """
+    if request.user.groups.filter(name='group_vet').exists():
+        processes = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.all()
+
+    if request.user.groups.filter(name='group_user').exists():
+        processes = request.user\
+            .pet_set.get(id=id_pet)\
+            .process_set.all()
+
     context = {
-        'processes': request.user.pet_set.get(id=id_pet).process_set.all(),
-        'id_pet': id_pet
+        'processes': processes,
+        'id_user': id_user,
+        'id_pet': id_pet,
     }
     search_input = request.GET.get('search-area') or ''
     if search_input:
@@ -25,75 +49,137 @@ def ProcessList(request, id_pet):
     return render(request, "process/process_list.html", context)
 
 
-# Funcion para mostrar los detalles de lso procesos
 @login_required
 @permission_required('process.view_process', raise_exception=True)
-def ProcessDetail(request, id_pet, id_pro):
+def ProcessDetail(request, id_user, id_pet, id_pro):
+    # lista de procesos
+    process = {}
+    documents = {}
+    """
+    Validar si es usuario o veterinario
+    """
+    if request.user.groups.filter(name='group_vet').exists():
+        process = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)
+
+        documents = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)\
+            .document_set.all()
+
+    if request.user.groups.filter(name='group_user').exists():
+        process = request.user\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)
+
+        documents = request.user\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)\
+            .document_set.all()
+
     context = {
-        'process' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro),
-        'documents' : request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro).document_set.all(),
-        'id_pet' : id_pet
+        'process' : process,
+        'documents' : documents,
+        'id_user': id_user,
+        'id_pet' : id_pet,
     }
     return render(request, "process/process_detail.html", context)
 
 
-# vista para mostrar el forulario del proceso y su registro del proceso
 @login_required
 @permission_required('process.add_process', raise_exception=True)
-def ProcessCreate(request, id_pet):
+def ProcessCreate(request, id_user, id_pet):
+    context = {}
     if request.method == 'POST':
-        # print('Process Create Post')
         form = ProcessForm(request.POST, request.FILES)
-        if form.is_valid():
-            # print('Process Create Validate Create Post')
-            form.instance.pet_id = request.user.pet_set.get(id=id_pet)
+        if form.is_valid() and request.user.groups.filter(name='group_vet').exists():
+
+            form.instance.pet_id = ConectionUV.objects.filter(user_id=request.user)[0]\
+                .vets.get(id=id_user)\
+                .pet_set.get(id=id_pet)
+
             form.save()
-            return redirect('process_detail', id_pet, form.instance.id)
+
+            return redirect('process_detail', id_user, id_pet, form.instance.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
-        print('Process Create GET')
-        form = ProcessForm()
-    return render(request, "process/process_form.html", {'form': form, 'id_pet': id_pet})
+        context = {
+            'form': ProcessForm(),
+            'id_user': id_user,
+            'id_pet': id_pet,
+        }
+    return render(request, "process/process_form.html", context)
 
 
-# Mustra y proceso para actualizar los procesos
 @login_required
 @permission_required('process.change_process', raise_exception=True)
-def ProcessUpdate(request, id_pet, id_pro):
+def ProcessUpdate(request, id_user, id_pet, id_pro):
+    my_process = {}
     if request.method == 'POST':
         form = ProcessForm(request.POST, request.FILES)
-        if form.is_valid():
-            myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
+        if form.is_valid() and request.user.groups.filter(name='group_vet').exists():
 
-            myprocess.type_process = form['type_process'].value()
-            myprocess.title = form['title'].value()
-            myprocess.description = form['description'].value()
-            myprocess.weight = form['weight'].value()
+            my_process = ConectionUV.objects.filter(user_id=request.user)[0]\
+                .vets.get(id=id_user)\
+                .pet_set.get(id=id_pet)\
+                .process_set.get(id=id_pro)
 
-            myprocess.save()
-            return redirect('process_detail', id_pet, myprocess.id)
+            my_process.type_process = form['type_process'].value()
+            my_process.title = form['title'].value()
+            my_process.description = form['description'].value()
+            my_process.weight = form['weight'].value()
+            my_process.save()
+
+            return redirect('process_detail', id_user, id_pet, my_process.id)
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
     else:
-        myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
+        my_process = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)
+
         form = ProcessForm()
-    return render(request, 'process/process_form.html', {'form': form, 'process': myprocess, 'id_pet': id_pet})
+
+    context = {
+        'form': form,
+        'process': my_process,
+        'id_user': id_user,
+        'id_pet': id_pet,
+    }
+    return render(request, 'process/process_form.html', context)
 
 
-# Proceso para eliminar un proceso de la mascota
 @login_required
 @permission_required('process.delete_process', raise_exception=True)
-def ProcessDelete(request, id_pet, id_pro):
+def ProcessDelete(request, id_user, id_pet, id_pro):
     if request.method == 'POST':
-        myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
-        myprocess.delete()
-        return redirect('process_list', id_pet)
+        my_process = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)
+
+        my_process.delete()
+        return redirect('process_list', id_user, id_pet)
     # if a GET (or any other method) we'll create a blank form
     else:
-        myprocess = request.user.pet_set.get(id=id_pet).process_set.get(id=id_pro)
+        my_process = ConectionUV.objects.filter(user_id=request.user)[0]\
+            .vets.get(id=id_user)\
+            .pet_set.get(id=id_pet)\
+            .process_set.get(id=id_pro)
+
         form = ProcessForm()
-    return render(request, 'process/process_confirm_delete.html',
-                  {'form': form, 'process': myprocess, 'id_pet': id_pet})
+
+    context = {
+        'form': form,
+        'process': my_process,
+        'id_user': id_user,
+        'id_pet': id_pet,
+    }
+    return render(request, 'process/process_confirm_delete.html', context)

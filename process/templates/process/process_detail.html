@@ -8,7 +8,7 @@
 
     <h1> {{ id_pet }} Process Detail </h1>
     <br>
-    <a href="{% url 'process_list' id_pet %}"> Go Back</a>
+    <a href="{% url 'process_list' id_user id_pet %}"> Go Back</a>
     <br>
     <br>
 
@@ -22,7 +22,9 @@
                 <th scope="col">Description</th>
                 <th scope="col">Weight</th>
                 <th scope="col">Date</th>
-                <th scope="col"></th>
+                {% if request.user|has_group:"group_vet" %}
+                    <th scope="col"></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -33,16 +35,22 @@
                 <td>{{ process.description }}</td>
                 <td>{{ process.weight }}</td>
                 <td>{{ process.created }}</td>
-                <td><a href="{% url 'process_update' id_pet process.id %}">Update</a></td>
+                {% if request.user|has_group:"group_vet" %}
+                    <td><a href="{% url 'process_update' id_user id_pet process.id %}">Update</a></td>
+                {% endif %}
             </tr>
         </table>
         <br>
-        <a href="{% url 'process_delete' id_pet process.id %}">Delete</a>
+        {% if request.user|has_group:"group_vet" %}
+            <a href="{% url 'process_delete' id_user id_pet process.id %}">Delete</a>
+        {% endif %}
     </div>
     <br>
-    <h1>  Document List </h1>
+    <h1> Document List </h1>
     <br>
-    <a href="{% url 'document_create' id_pet process.id %}">Add New Document</a>
+    {% if request.user|has_group:"group_vet" %}
+        <a href="{% url 'document_create' id_user id_pet process.id %}">Add New Document</a>
+    {% endif %}
     <br>
     <br>
     <div>
@@ -59,7 +67,7 @@
                 <tr class="table-active">
                     <th scope="row">{{ document.id }}</th>
                     <td>{{ document.name }}</td>
-                    <td><a href="{% url 'document_detail' id_pet process.id document.id %}">Detail</a></td>
+                    <td><a href="{% url 'document_detail' id_user id_pet process.id document.id %}">Detail</a></td>
                 </tr>
                 {% empty %}
                 <h3> No Documents in the Process </h3>

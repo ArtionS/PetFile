@@ -1,48 +1,57 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block title %}
-ProcessList / PetMedic
+    ProcessList / PetMedic
 {% endblock %}
 
 {% block content %}
 
-<h1> {{id_pet}} Process List</h1>
-<h1> </h1>
+    <h1> {{ id_pet }} Process List</h1>
+    <h1></h1>
 
-<form method="GET">
-    <input type="text" name="search-area" value="{{search_input}}">
-    <input type="submit" value="Search">
-</form>
-<br>
-    <a href="{% url 'pet_detail' id_pet %}">Go Back</a>
-<br>
-<br>
-<a href="{% url 'process_create' id_pet %}">Add New Process</a>
-<br>
-<br>
-<div>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Type Process</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for process in processes %}
-        <tr class="table-active">
-            <th scope="row">{{process.id}}</th>
-            <td>{{process.title}}</td>
-            <td>{{process.type_process}}</td>
-            <td><a href="{% url 'process_detail' id_pet process.id %}">Detail</a></td>
-        </tr>
-        {% empty %}
-        <h3> No Process in List </h3>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <form method="GET">
+        <input type="text" name="search-area" value="{{ search_input }}">
+        <input type="submit" value="Search">
+    </form>
+    <br>
+
+    {% if request.user|has_group:"group_user" %}
+        <a href="{% url 'pet_detail' id_pet %}"> Go Back</a>
+    {% endif %}
+    {% if request.user|has_group:"group_vet" %}
+        <a href="{% url 'user_pet_detail' id_user id_pet %}"> Go Back </a>
+    {% endif %}
+
+    <br>
+    <br>
+    {% if request.user|has_group:"group_vet" %}
+        <a href="{% url 'process_create' id_user id_pet %}">Add New Process</a>
+    {% endif %}
+    <br>
+    <br>
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Type Process</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for process in processes %}
+                <tr class="table-active">
+                    <th scope="row">{{ process.id }}</th>
+                    <td>{{ process.title }}</td>
+                    <td>{{ process.type_process }}</td>
+                    <td><a href="{% url 'process_detail' id_user id_pet process.id %}">Detail</a></td>
+                </tr>
+                {% empty %}
+                <h3> No Process in List </h3>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

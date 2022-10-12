@@ -7,7 +7,7 @@
 {% block content %}
     <legend>Process Create Form </legend>
 
-    <a href="{% url 'process_list' id_pet %}"> Go Back</a>
+    <a href="{% url 'process_list' id_user id_pet %}"> Go Back</a>
 
     <form name="process_create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

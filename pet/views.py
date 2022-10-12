@@ -33,7 +33,6 @@ Bloque Funciones para las mascotas
 def PetList(request):
 
     if request.user.groups.filter(name='group_user').exists():
-        print("Soy User")
         pets = request.user.pet_set.all()
 
     # variable que puede afectar la busqueda de mascotas
@@ -54,8 +53,8 @@ def PetList(request):
 # funcion que muestra los detalles de una mascota
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
-def PetDetail(request, pk):
-    return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=pk)})
+def PetDetail(request, id_pet):
+    return render(request, "pet/pet_detail.html", {'pet': request.user.pet_set.get(id=id_pet)})
 
 
 # funcion para rear una mascota ya sea POST or GET
@@ -157,8 +156,8 @@ def PetUpdate(request, id_user, id_pet):
 # funcino para borrar una mascota
 @login_required
 @permission_required('pet.delete_pet', raise_exception=True)
-def PetDelete(request, pk):
-    mypet = request.user.pet_set.get(id=pk)
+def PetDelete(request, id_pet):
+    mypet = request.user.pet_set.get(id=id_pet)
     # Si se asepta el eliminar a la mascota se ejecuta el POST
     if request.method == 'POST':
         mypet.delete()
