@@ -27,8 +27,8 @@ Vet List / PetMedic
         {% for vet in vets %}
         <tr class="table-active">
             <th scope="row">{{vet.id}}</th>
-            <td>{{vet.vet_user.username}}</td>
-            <td><a href="{% url 'vet_detail' vet.vet_user.id %}"> Detail</a></td>
+            <td>{{vet.username}}</td>
+            <td><a href="{% url 'vet_detail' vet.id %}"> Detail</a></td>
         </tr>
         {% empty %}
         <h3> No Vet in List </h3>

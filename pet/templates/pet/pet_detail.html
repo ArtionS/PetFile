@@ -40,11 +40,11 @@
 
                                     </div>
                                     <div class="card-body" style="text-align:center;">
-                                        <a href="{% url 'vaccine_list' pet.id %}" class="btn btn-primary">Vacines</a>
-                                        <a href="{% url 'process_list' pet.id %}" class="btn btn-primary">Processes</a>
+                                        <a href="{% url 'vaccine_list' pet.owner.id pet.id %}" class="btn btn-primary">Vacines</a>
+                                        <a href="{% url 'process_list' pet.owner.id pet.id %}" class="btn btn-primary">Processes</a>
                                     </div>
                                     <div class="card-body" style="text-align:center;">
-                                        <a href="{% url 'pet_update' pet.id %}" class="btn btn-info">Update</a>
+                                        <a href="{% url 'pet_update' pet.owner.id pet.id %}" class="btn btn-info">Update</a>
                                     </div>
                                 </div>
                             </div>
@@ -89,9 +89,9 @@
                 <td>{{ pet.description }}</td>
                 <td>{{ pet.birth_day }}</td>
 
-                <td><a href="{% url 'vaccine_list' pet.id %}">Vacines</a></td>
-                <td><a href="{% url 'process_list' pet.id %}">Processes</a></td>
-                <td><a href="{% url 'pet_update' pet.id %}">Update</a></td>
+                <td><a href="{% url 'vaccine_list' pet.owner.id pet.id %}">Vacines</a></td>
+                <td><a href="{% url 'process_list' pet.owner.id pet.id %}">Processes</a></td>
+                <td><a href="{% url 'pet_update' pet.owner.id pet.id %}">Update</a></td>
             </tr>
         </table>
 

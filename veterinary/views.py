@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 
-
 # Paquete para pedir que se este en modo login y pedir permisos
 # from django.contrib.auth.decorators import login_required , permission_required
 # Create your views here.
@@ -8,44 +7,28 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 
 # Importacion de modelos de Usuario y de UsertoVet
-from .models import UserToVet
+from .models import ConectionUV
 from django.contrib.auth.models import User
+
+"""
+Bloque de funciones para Usuarios
+"""
 
 
 def UserList(request):
-
-    print("Start")
-
-    list_users = request.user.usertovet_set.all()
-
-    print(list_users._query)
-
-
-    print("End")
-
-    users = []
-
-    user_list = UserToVet.objects.filter(vet_user_id=request.user.id)
-
-    for userx in user_list:
-        us = userx.current_user.all()
-        for u in us:
-            users.append(u)
+    con = ConectionUV.objects.filter(user_id=request.user)
 
     context = {
-        "users" : users
+        "users": con[0].vets.all()
     }
+
     return render(request, "veterinary/user_list.html", context)
 
 
 def UserDetail(request, id_user):
-
-    user = User.objects.get(id=id_user)
-
+    con = ConectionUV.objects.filter(user_id=request.user)
+    user = con[0].vets.get(id=id_user)
     pets = user.pet_set.all()
-
-    # pets = Pet.objects.filter(owner=id_user)
-    print(pets)
 
     context = {
         "user": user,
@@ -53,37 +36,138 @@ def UserDetail(request, id_user):
     }
     return render(request, "veterinary/user_detail.html", context)
 
+"""
+Bloque de funciones para las Mascotas de Usuarios
+"""
+
+
+def UserPetDetail(request, id_user, id_pet):
+    con = ConectionUV.objects.filter(user_id=request.user)
+    user = con[0].vets.get(id=id_user)
+    pet = user.pet_set.get(id=id_pet)
+
+    context = {
+        "user": user,
+        "pet": pet,
+    }
+    return render(request, "veterinary/user_pet_detail.html", context)
+
+"""
+Bloque de Funciones para Veterinarios
+"""
+
 
 # Funciones para a muestra de los veterinarios a los usuarios
 def VetList(request):
+    con = ConectionUV.objects.filter(user_id=request.user)
+
+    if len(con) == 0:
+        vets = {}
+    else:
+        vets = con[0].vets.all()
 
     context = {
-        "vets": request.user.usertovet_set.all()
+        "vets": vets
     }
+
     return render(request, "veterinary/vet_list.html", context)
 
 
 def VetDetail(request, id_vet):
+    """
+    Parte pendiente para desarrollo en la nuve QR
+    """
+
+    print("Prueba de URL para QR")
+    print(request.get_full_path())
+
+    con = ConectionUV.objects.filter(user_id=request.user)
+
+    if len(con) == 0:
+        vets = {}
+    else:
+        vets = con[0].vets.get(id=id_vet)
+
     context = {
-        "vet": request.user.usertovet_set.get(vet_user=id_vet)
+        "vet": vets
     }
     return render(request, "veterinary/vet_detail.html", context)
 
 
 def VetCreate(request, id_vet):
-    context = {"hey": 14}
-    return render(request, "veterinary/vet_form.html", context)
+    print("Actual")
+    # actual_conection_user = ConectionUV.objects.filter(user_id=request.user)
+    if len(ConectionUV.objects.filter(user_id=id_vet)) == 0:
+        new_conection = ConectionUV(user_id=User.objects.get(id=id_vet))
+        new_conection.save()
+
+    if len(ConectionUV.objects.filter(user_id=request.user)) == 0:
+        new_conection = ConectionUV(user_id=request.user)
+        new_conection.save()
+
+    print("Vets")
+    vet_conection = ConectionUV.objects.filter(user_id=id_vet)
+    print(vet_conection)
+    print(vet_conection[0].vets.all())
+
+    print("User")
+    user_conection = ConectionUV.objects.filter(user_id=request.user)
+    print(user_conection)
+    print(user_conection[0].vets.all())
+
+    context = {
+        "vet": User.objects.get(id=id_vet)
+    }
+
+    if request.user in vet_conection[0].vets.all():
+        print("Si")
+        return render(request, "veterinary/conection_ready.html", context)
+
+    print("No")
+
+    if request.method == 'POST':
+        print("Register")
+        user_conection[0].vets.add(User.objects.get(id=id_vet))
+        vet_conection[0].vets.add(request.user)
+        return redirect('vet_create', id_vet)
+
+    return render(request, "veterinary/conection.html", context)
 
 
 def VetDelete(request, id_vet):
-    vet = request.user.usertovet_set.get(vet_user=id_vet)
+    """
+    Proceso para la quitar a un veterinario de la lista de veterinarios de un usuario
+    y
+    Proceso para quitar de la lista de usuarios a un Usuario
+
+    Ambos deben de estar en las listas del otro y se procedera a eliminarlos de
+    """
+    # validacion de que el veterinario tenga su lista de conecciones
+    if len(ConectionUV.objects.filter(user_id=id_vet)) == 0:
+        new_conection = ConectionUV(user_id=User.objects.get(id=id_vet))
+        new_conection.save()
+
+    # validacion de que el usuario tenga su lista de conecciones
+    if len(ConectionUV.objects.filter(user_id=request.user)) == 0:
+        new_conection = ConectionUV(user_id=request.user)
+        new_conection.save()
+
+    # conecciones del veterinari
+    vet_conection = ConectionUV.objects.filter(user_id=id_vet)
+    # conecciones del usuario
+    user_conection = ConectionUV.objects.filter(user_id=request.user)
+
+    context = {
+        "vet": User.objects.get(id=id_vet)
+    }
+
+    # Validacion de que el usuario NO este en la lista del veterinari
+    if request.user not in vet_conection[0].vets.all():
+        return render(request, "veterinary/vet_ready_delete.html", context)
 
     if request.method == 'POST':
-        vet.delete()
-        return redirect('vet_list')
-    else:
-        return render(request, "veterinary/vet_confirm_delete.html", {'vet': vet})
+        user_conection[0].vets.remove(User.objects.get(id=id_vet))
+        vet_conection[0].vets.remove(request.user)
+        return redirect('vet_delete', id_vet)
 
-
-
-
+    return render(request, "veterinary/vet_confirm_delete.html", context)
