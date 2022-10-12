@@ -8,13 +8,13 @@
 
 <h1> {{id_pet}} Process Delete {{process.id}} </h1>
 
-<a href="{% url 'process_detail' id_user id_pet process.id %}">Go Back</a>
+<a href="{% url 'process_detail' id_user id_pet process.id %}" class="btn btn-secondary">Go Back</a>
 
 
 <form method="POST">
     {% csrf_token %}
     <p>Are you sure you want to delete the process {{ process }} ?  </p>
-    <input type="submit" value="Delete">
+    <input type="submit" value="Delete" class="btn btn-warning">
 </form>
 
 {% endblock %}

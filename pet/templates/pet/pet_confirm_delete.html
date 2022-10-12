@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<a href="{% url 'pet_detail' pet.id %}">Go Back</a>
+<a href="{% url 'pet_detail' pet.id %}" class="btn btn-secondary">Go Back</a>
 
 <form method="POST">
     {% csrf_token %}

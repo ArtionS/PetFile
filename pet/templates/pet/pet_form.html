@@ -8,10 +8,10 @@
     <legend>Pet Create Form </legend>
 
     {% if request.user|has_group:"group_user" %}
-        <a href="{% url 'pet_list' %}"> Go Back</a>
+        <a href="{% url 'pet_list' %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'user_detail' pet.owner.id %}"> Go Back</a>
+        <a href="{% url 'user_detail' pet.owner.id %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
 
     <form name="pet_create" method="POST" enctype="multipart/form-data">

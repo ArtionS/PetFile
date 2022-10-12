@@ -8,7 +8,7 @@
 
 <h3> {{vaccines}} Vaccine Create Form</h3>
 
-<a href="{% url 'vaccine_list' id_user id_pet %}"> Go Back</a>
+<a href="{% url 'vaccine_list' id_user id_pet %}" class="btn btn-secondary"> Go Back</a>
 
 <p>{{id_pet}} ID Mascota</p>
 
@@ -21,7 +21,7 @@
                        placeholder="Enter Process Title" value="{{ vaccine.name }}">
     </div>
         <br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-success">
     </fieldset>
 </form>
 

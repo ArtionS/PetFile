@@ -8,7 +8,7 @@
 
 <h1> {{id_pet}} Document Delete {{id_pro}} </h1>
 
-<a href="{% url 'document_detail' id_user id_pet id_pro document.id %}">Go Back</a>
+<a href="{% url 'document_detail' id_user id_pet id_pro document.id %}" class="btn btn-secondary">Go Back</a>
 
 <form method="POST">
     {% csrf_token %}

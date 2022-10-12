@@ -16,16 +16,16 @@
     <br>
 
     {% if request.user|has_group:"group_user" %}
-        <a href="{% url 'pet_detail' id_pet %}"> Go Back</a>
+        <a href="{% url 'pet_detail' id_pet %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'user_pet_detail' id_user id_pet %}"> Go Back </a>
+        <a href="{% url 'user_pet_detail' id_user id_pet %}" class="btn btn-secondary"> Go Back </a>
     {% endif %}
 
     <br>
     <br>
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'vaccine_create' id_user id_pet %}">Add New Vaccines</a>
+        <a href="{% url 'vaccine_create' id_user id_pet %}" class="btn btn-success">Add New Vaccines</a>
     {% endif %}
     <br>
     <br>
@@ -43,7 +43,7 @@
                 <tr class="table-active">
                     <th scope="row">{{ vaccine.id }}</th>
                     <td>{{ vaccine.name }}</td>
-                    <td><a href="{% url 'vaccine_detail' id_user id_pet vaccine.id %}">Detail</a></td>
+                    <td><a href="{% url 'vaccine_detail' id_user id_pet vaccine.id %}" class="btn btn-primary">Detail</a></td>
 
                 </tr>
                 {% empty %}

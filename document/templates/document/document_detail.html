@@ -8,7 +8,7 @@
 
     <h1> {{ id_pet }} Document Detail </h1>
     <br>
-    <a href="{% url 'process_detail' id_user id_pet id_pro %}"> Go Back</a>
+    <a href="{% url 'process_detail' id_user id_pet id_pro %}" class="btn btn-secondary"> Go Back</a>
     <br>
     <br>
     <div>
@@ -27,15 +27,15 @@
             <tr class="table-active">
                 <th scope="row">{{ document.id }}</th>
                 <td>{{ document.name }}</td>
-                <td><a href="{{ document.document.url }}"> {{ document.document.name }}</a></td>
+                <td><a href="{{ document.document.url }}" class="btn btn-dark"> {{ document.document.name }}</a></td>
                 {% if request.user|has_group:"group_vet" %}
-                    <td><a href="{% url 'document_update' id_user id_pet id_pro document.id %}">Update</a></td>
+                    <td><a href="{% url 'document_update' id_user id_pet id_pro document.id %}" class="btn btn-info">Update</a></td>
                 {% endif %}
             </tr>
         </table>
         <br>
         {% if request.user|has_group:"group_vet" %}
-            <a href="{% url 'document_delete' id_user id_pet id_pro document.id %}">Delete</a>
+            <a href="{% url 'document_delete' id_user id_pet id_pro document.id %}" class="btn btn-warning">Delete</a>
         {% endif %}
 
     </div>

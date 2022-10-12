@@ -7,7 +7,7 @@
 {% block content %}
     <legend>Document Create Form</legend>
 
-    <a href="{% url 'process_detail' id_user id_pet id_pro %}"> Go Back</a>
+    <a href="{% url 'process_detail' id_user id_pet id_pro %}" class="btn btn-secondary"> Go Back</a>
 
     <form name="document_create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

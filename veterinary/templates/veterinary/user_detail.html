@@ -70,7 +70,7 @@
                         <td>{{ pet.name }}</td>
                         <td>{{ pet.type_animal }}</td>
                         <td>{{ pet.gender }}</td>
-                        <td><a href="{% url 'user_pet_detail' user.id pet.id %}">Button Detail</a></td>
+                        <td><a href="{% url 'user_pet_detail' user.id pet.id %}" class="btn btn-primary">Button Detail</a></td>
                     </tr>
                     {% empty %}
                     <h3> No pet in List </h3>

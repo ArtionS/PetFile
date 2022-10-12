@@ -16,16 +16,16 @@
     <br>
 
     {% if request.user|has_group:"group_user" %}
-        <a href="{% url 'pet_detail' id_pet %}"> Go Back</a>
+        <a href="{% url 'pet_detail' id_pet %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'user_pet_detail' id_user id_pet %}"> Go Back </a>
+        <a href="{% url 'user_pet_detail' id_user id_pet %}" class="btn btn-secondary"> Go Back </a>
     {% endif %}
 
     <br>
     <br>
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'process_create' id_user id_pet %}">Add New Process</a>
+        <a href="{% url 'process_create' id_user id_pet %}" class="btn btn-success">Add New Process</a>
     {% endif %}
     <br>
     <br>
@@ -45,7 +45,7 @@
                     <th scope="row">{{ process.id }}</th>
                     <td>{{ process.title }}</td>
                     <td>{{ process.type_process }}</td>
-                    <td><a href="{% url 'process_detail' id_user id_pet process.id %}">Detail</a></td>
+                    <td><a href="{% url 'process_detail' id_user id_pet process.id %}" class="btn btn-primary">Detail</a></td>
                 </tr>
                 {% empty %}
                 <h3> No Process in List </h3>
