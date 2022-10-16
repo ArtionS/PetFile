@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  petfile-web:
+    restart: on-failure
+    ports:
+      - 8000:8000
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DBNAME
+      - DBUSER
+      - DBPASS
+      - DBHOST

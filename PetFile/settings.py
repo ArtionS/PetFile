@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 import os.path
 from pathlib import Path
 
@@ -108,10 +109,21 @@ WSGI_APPLICATION = 'PetFile.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE' : 'django.db.backends.mysql',
-        'OPTIONS' : {
-            # aqui se asigna que se lea el archivo en donde se enuentra lo necesario para hacer la coneccion d ela base de datos
-            'read_default_file' : os.path.join(BASE_DIR, "my.cnf")
-        }
+
+        'NAME': os.getenv('DBNAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD': os.getenv('DBPASS'),
+        'HOST': os.getenv('DBHOST'),
+
+        # 'OPTIONS' : {
+        #
+        #
+        #
+        #
+        #
+        #     # # aqui se asigna que se lea el archivo en donde se enuentra lo necesario para hacer la coneccion d ela base de datos
+        #     # 'read_default_file' : os.path.join(BASE_DIR, "my.cnf")
+        # }
     }
 }
 

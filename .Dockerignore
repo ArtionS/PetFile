@@ -1,0 +1,11 @@
+.idea
+
+db.sqlite3
+
+my.cnf
+
+.git
+.gitignore
+README.MD
+Dockerfile
+.Dockerignore

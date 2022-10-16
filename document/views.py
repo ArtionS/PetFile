@@ -61,7 +61,6 @@ def DocumentDetail(request, id_user, id_pet, id_pro, id_doc):
 @login_required
 @permission_required('document.add_document', raise_exception=True)
 def DocumentCreate(request, id_user, id_pet, id_pro):
-    context = {}
     if request.method == "POST":
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid() and request.user.groups.filter(name='group_vet').exists():
@@ -80,12 +79,12 @@ def DocumentCreate(request, id_user, id_pet, id_pro):
     else:
         form = DocumentForm()
 
-        context = {
-            'form': form,
-            'id_user': id_user,
-            'id_pet': id_pet,
-            'id_pro': id_pro,
-        }
+    context = {
+        'form': form,
+        'id_user': id_user,
+        'id_pet': id_pet,
+        'id_pro': id_pro,
+    }
     return render(request, 'document/document_form.html', context)
 
 
@@ -93,7 +92,7 @@ def DocumentCreate(request, id_user, id_pet, id_pro):
 @login_required
 @permission_required('document.change_document', raise_exception=True)
 def DocumentUpdate(request, id_user, id_pet, id_pro, id_doc):
-    context = {}
+    my_document = {}
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -121,13 +120,13 @@ def DocumentUpdate(request, id_user, id_pet, id_pro, id_doc):
             .process_set.get(id=id_pro)\
             .document_set.get(id=id_doc)
 
-        context = {
-            'form': DocumentForm(),
-            'document': my_document,
-            'id_user': id_user,
-            'id_pet': id_pet,
-            'id_pro': id_pro,
-        }
+    context = {
+        'form': DocumentForm(),
+        'document': my_document,
+        'id_user': id_user,
+        'id_pet': id_pet,
+        'id_pro': id_pro,
+    }
     return render(request, 'document/document_form.html', context)
 
 

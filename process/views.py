@@ -92,7 +92,6 @@ def ProcessDetail(request, id_user, id_pet, id_pro):
 @login_required
 @permission_required('process.add_process', raise_exception=True)
 def ProcessCreate(request, id_user, id_pet):
-    context = {}
     if request.method == 'POST':
         form = ProcessForm(request.POST, request.FILES)
         if form.is_valid() and request.user.groups.filter(name='group_vet').exists():
@@ -107,12 +106,12 @@ def ProcessCreate(request, id_user, id_pet):
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
-    else:
-        context = {
-            'form': ProcessForm(),
-            'id_user': id_user,
-            'id_pet': id_pet,
-        }
+
+    context = {
+        'form': ProcessForm(),
+        'id_user': id_user,
+        'id_pet': id_pet,
+    }
     return render(request, "process/process_form.html", context)
 
 

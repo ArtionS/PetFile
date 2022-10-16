@@ -70,11 +70,12 @@ def PetCreate(request, id_user):
             """
             Validar si es usuario o veterinario
             """
+            # for Vet
             if request.user.groups.filter(name='group_vet').exists():
                 con = ConectionUV.objects.filter(user_id=request.user)
                 user = con[0].vets.get(id=id_user)
                 form.instance.owner = user
-
+            # for User
             if request.user.groups.filter(name='group_user').exists():
                 form.instance.owner = request.user
 
@@ -88,10 +89,12 @@ def PetCreate(request, id_user):
         else:
             print(form.errors)
     # if a GET (or any other method) we'll create a blank form
-    else:
-        form = PetForm()
-        pet_type_list = PetType.objects.all()
-    return render(request, 'pet/pet_form.html', {'form': form, 'pet_type_list': pet_type_list})
+
+    context = {
+        'form': PetForm(),
+        'pet_type_list': PetType.objects.all(),
+    }
+    return render(request, 'pet/pet_form.html', context)
 
 
 # funion que nos permite hacer un update a un masota

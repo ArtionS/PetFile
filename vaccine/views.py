@@ -78,7 +78,7 @@ def VaccineDetail(request, id_user, id_pet, id_vac):
 @login_required
 @permission_required('vaccine.add_vaccine', raise_exception=True)
 def VaccineCreate(request, id_user, id_pet):
-    context = {}
+
     if request.method == 'POST':
         form = VaccineForm(request.POST, request.FILES)
         if form.is_valid() and request.user.groups.filter(name='group_vet').exists():
@@ -95,12 +95,12 @@ def VaccineCreate(request, id_user, id_pet):
             print(form.errors)
 
     # if a GET (or any other method) we'll create a blank form
-    else:
-        context = {
-            'form': VaccineForm(),
-            'id_user': id_user,
-            'id_pet': id_pet,
-        }
+
+    context = {
+        'form': VaccineForm(),
+        'id_user': id_user,
+        'id_pet': id_pet,
+    }
     return render(request, "vaccine/vaccine_form.html", context)
 
 
