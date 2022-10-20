@@ -9,6 +9,8 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT  tail -f /dev/null
+EXPOSE 8000
 
-# ENTRYPOINT  python manage.py runserver
+# ENTRYPOINT  tail -f /dev/null
+
+ENTRYPOINT  python manage.py runserver 0.0.0.0:8000

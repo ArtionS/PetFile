@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from .models import Pet
 
 
@@ -15,3 +15,9 @@ class PetForm(ModelForm):
             'birth_day',
             'picture',
         ]
+        widgets = {
+            'name': TextInput(attrs={'required': True}),
+        }
+
+
+

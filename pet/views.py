@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 """
 Decoradores para validar que se tengan los permisos y que se este logueado
@@ -8,17 +9,17 @@ from django.contrib.auth.decorators import login_required, permission_required
 # @permission_required('pet.view_pet', raise_exception=True)  # Cecorador para los permisos
 
 """
-Se importa el formulario de la mascota para las funciones de Create and Update
+Formulario de la mascota para las funciones de Create and Update
 """
 from .forms import PetForm
 
 """
-Se importa la lista de los tipos de animaless para los fprmularios de Create and Update
+Lista de tipos de animaless para los fprmularios de Create and Update
 """
 from pet_type.models import PetType
 
 """
-Importacion el modelo de coneccion para asignacion de deño a la mascota
+Modelo de coneccion para asignacion de deño a la mascota
 """
 from veterinary.models import ConectionUV
 
@@ -88,6 +89,9 @@ def PetCreate(request, id_user):
                 return redirect('pet_detail', form.instance.id)
         else:
             print(form.errors)
+            message = form.errors
+            messages.error(request, message)
+
     # if a GET (or any other method) we'll create a blank form
 
     context = {

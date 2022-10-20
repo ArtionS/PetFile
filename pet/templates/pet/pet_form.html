@@ -5,7 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <legend>Pet Create Form </legend>
+
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            <div class="container-fluid p-0">#}
+{#                <div class="alert {{ message.tags }} alert-dismissible" role="alert">#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>#}
+{#                    {{ message }}#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+
+
+
+    <legend>Pet Create Form</legend>
 
     {% if request.user|has_group:"group_user" %}
         <a href="{% url 'pet_list' %}" class="btn btn-secondary"> Go Back</a>
@@ -14,23 +28,29 @@
         <a href="{% url 'user_detail' pet.owner.id %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
 
+
+
     <form name="pet_create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset>
+            <br>
+            <p>Required Data (*)</p>
 
             <div class="form-group">
-                <label for="name" class="form-label mt-4">Pet Name</label>
-                <input name="name" type="text" class="form-control" id="name" aria-describedby="petlHelp" placeholder="Enter Pet Name" value="{{ pet.name }}">
+                <label for="name" class="form-label mt-4">Pet Name *</label>
+                <input name="name" type="text" class="form-control" id="name" aria-describedby="petlHelp"
+                       placeholder="Enter Pet Name" value="{{ pet.name }}">
             </div>
 
             <div class="form-group">
-                <label for="type_animal" class="form-label mt-4">Pet Type</label>
-                <input name="type_animal" type="text" class="form-control" id="type_animal" list="typeAnimalList" placeholder="Enter Pet Type" value="{{ pet.type_animal }}">
+                <label for="type_animal" class="form-label mt-4">Pet Type *</label>
+                <input name="type_animal" type="text" class="form-control" id="type_animal" list="typeAnimalList"
+                       placeholder="Enter Pet Type" value="{{ pet.type_animal }}">
                 <datalist id="typeAnimalList">
-                    {%  for animal in pet_type_list  %}
+                    {% for animal in pet_type_list %}
                         <option value="{{ animal }}">{{ animal }}</option>
                         {{ animal }}
-                    {% empty %}
+                        {% empty %}
                         <h3> No pet in List </h3>
                     {% endfor %}
                 </datalist>
@@ -38,12 +58,13 @@
 
             <div class="form-group">
                 <label for="raze" class="form-label mt-4">Pet Raze</label>
-                <input name="raze" type="text" class="form-control" id="raze" placeholder="Enter Pet Raze" value="{{ pet.raze }}">
+                <input name="raze" type="text" class="form-control" id="raze" placeholder="Enter Pet Raze"
+                       value="{{ pet.raze }}">
             </div>
 
             <div class="form-group">
                 <label for="gender" class="form-label mt-4">Animal Gender</label>
-                <select name="gender"  class="form-select" id="gender" value="{{ pet.gender }}">
+                <select name="gender" class="form-select" id="gender" value="{{ pet.gender }}">
                     <option value="F">Female</option>
                     <option value="M">Male</option>
                 </select>
@@ -51,12 +72,15 @@
 
             <div class="form-group">
                 <label for="description" class="form-label mt-4">Pet Description</label>
-                <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter Pet Description" value="{{ pet.description }}">{{ pet.description }}</textarea >
+                <textarea name="description" class="form-control" id="description" rows="3"
+                          placeholder="Enter Pet Description"
+                          value="{{ pet.description }}">{{ pet.description }}</textarea>
             </div>
 
             <div class="form-group">
-                <label for="birth_day" class="form-label mt-4">Pet Bithday</label>
-                <input name="birth_day" type="date" class="form-control" id="birth_day" placeholder="Animal Type" value = "{{ pet.birth_day }}">
+                <label for="birth_day" class="form-label mt-4">Pet Bithday *</label>
+                <input name="birth_day" type="date" class="form-control" id="birth_day" placeholder="Animal Type"
+                       value="{{ pet.birth_day }}">
             </div>
 
             <div class="form-group">
@@ -70,5 +94,9 @@
         </fieldset>
     </form>
 
+    <br>
+    <br>
+    <br>
+    <br>
 
 {% endblock %}
