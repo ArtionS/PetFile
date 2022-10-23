@@ -10,11 +10,16 @@
 
     <h1> {{ pet }} Vet Detail {{ pet.id }} </h1>
     <br>
-    <a href="{% url 'vet_list' %}"> Go Back</a>
+
+
+    {% if request.user|has_group:"group_vet" %}
+        <a href="{% url 'home_page' %}" class="btn btn-secondary">Go Back</a>
+    {% elif request.user|has_group:"group_user" %}
+        <a href="{% url 'vet_list' %}" class="btn btn-secondary">Go Back</a>
+    {% endif %}
 
     <br>
     <br>
-
     <div>
         <table class="table table-hover">
             <thead>
@@ -22,8 +27,6 @@
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col"></th>
-
-
             </tr>
             </thead>
             <tbody>
@@ -31,28 +34,21 @@
                 <th scope="row">{{ vet.id }}</th>
                 <td>{{ vet.username }}</td>
 
-
                 {% if request.user|has_group:"group_user" %}
-                    <td><a href="{% url 'vet_delete' vet.id %}"> Delete</a></td>
+                    <td><a class="btn btn-warning" href="{% url 'vet_delete' vet.id %}"> STOP Sharing</a></td>
                 {% endif %}
-
 
             </tr>
         </table>
 
-
-    <div >
-        <div class="d-flex justify-content-center">
-            {% qr_from_text link size="s" image_format="png" error_correction="L" %}
+        <div>
+            <div class="d-flex justify-content-center">
+                {% qr_from_text link size="s" image_format="png" error_correction="L" %}
+            </div>
+            <br>
+            <h3 class="d-flex justify-content-center"> {{ link }} </h3>
         </div>
-    <br>
-        <h3 class="d-flex justify-content-center"> {{ link }} </h3>
-    </div>
-
-
-
         <br>
-
     </div>
 
 {% endblock %}

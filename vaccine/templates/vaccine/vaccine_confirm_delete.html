@@ -6,14 +6,16 @@
 
 {% block content %}
 
-<h1> {{id_pet}} Vaccine Delete {{vaccine.id}} </h1>
+<h1>Vaccine Delete </h1>
 
 <a href="{% url 'vaccine_detail' id_user id_pet vaccine.id%}" class="btn btn-secondary">Go Back</a>
 
-
+<br>
+<br>
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete this Vaccine {{ vaccine }} ?  </p>
+    <h2>Are you sure you want to delete this Vaccine <b>{{ vaccine }}</b> from the pet?  </h2>
+    <br>
     <input type="button" value="Delete" class="btn btn-warning">
 </form>
 

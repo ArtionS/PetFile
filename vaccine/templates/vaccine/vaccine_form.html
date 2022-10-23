@@ -6,11 +6,11 @@
 
 {% block content %}
 
-<h3> {{vaccines}} Vaccine Create Form</h3>
+<h3> Vaccine Create Form</h3>
 
 <a href="{% url 'vaccine_list' id_user id_pet %}" class="btn btn-secondary"> Go Back</a>
 
-<p>{{id_pet}} ID Mascota</p>
+
 
 <form name="vaccine_create" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -18,7 +18,7 @@
     <div class="form-group">
                 <label for="name" class="form-label mt-4">Vaccine Name</label>
                 <input name="name" type="text" class="form-control" id="name" aria-describedby="petlHelp"
-                       placeholder="Enter Process Title" value="{{ vaccine.name }}">
+                       placeholder="Enter Vaccine Name" value="{{ vaccine.name }}">
     </div>
         <br>
     <input type="submit" value="Submit" class="btn btn-success">

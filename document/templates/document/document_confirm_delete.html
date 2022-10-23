@@ -6,14 +6,15 @@
 
 {% block content %}
 
-<h1> {{id_pet}} Document Delete {{id_pro}} </h1>
+<h1> Document Deletion </h1>
 
 <a href="{% url 'document_detail' id_user id_pet id_pro document.id %}" class="btn btn-secondary">Go Back</a>
-
+<br>
+    <br>
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete this Document : {{ document }} ?  </p>
-    <input type="submit" value="Delete">
+    <h2>Are you sure you want to delete the Document  <b>{{ document }}</b>  from the process ?  </h2>
+    <input class="btn btn-warning" type="submit" value="Delete">
 </form>
 
 {% endblock %}

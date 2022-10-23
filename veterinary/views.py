@@ -88,9 +88,9 @@ def VetDetail(request, id_vet):
         else:
             vet = con[0].vets.get(id=id_vet)
 
-    print("Prueba de URL para QR")
+    # print("Prueba de URL para QR")
     link = f"http://{request.get_host()}/veterinary/create/{id_vet}/"
-    print(link)
+    # print(link)
 
     context = {
         "vet": vet,
@@ -110,12 +110,12 @@ def VetCreate(request, id_vet):
         new_conection = ConectionUV(user_id=request.user)
         new_conection.save()
 
-    print("Vets")
+    # print("Vets")
     vet_conection = ConectionUV.objects.filter(user_id=id_vet)
     print(vet_conection)
     print(vet_conection[0].vets.all())
 
-    print("User")
+    # print("User")
     user_conection = ConectionUV.objects.filter(user_id=request.user)
     print(user_conection)
     print(user_conection[0].vets.all())
@@ -125,13 +125,13 @@ def VetCreate(request, id_vet):
     }
 
     if request.user in vet_conection[0].vets.all():
-        print("Si")
+        # print("Si")
         return render(request, "veterinary/conection_ready.html", context)
 
-    print("No")
+    # print("No")
 
     if request.method == 'POST':
-        print("Register")
+        # print("Register")
         user_conection[0].vets.add(User.objects.get(id=id_vet))
         vet_conection[0].vets.add(request.user)
         return redirect('vet_create', id_vet)

@@ -62,40 +62,40 @@
     <br>
 
 
-    <div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type Animal</th>
-                <th scope="col">Raze</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Description</th>
-                <th scope="col">Birth Day</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="table-active">
-                <th scope="row">{{ pet.id }}</th>
-                <td>{{ pet.name }}</td>
-                <td>{{ pet.type_animal }}</td>
-                <td>{{ pet.raze }}</td>
-                <td>{{ pet.gender }}</td>
-                <td>{{ pet.description }}</td>
-                <td>{{ pet.birth_day }}</td>
-
-                <td><a href="{% url 'vaccine_list' pet.owner.id pet.id %}">Vacines</a></td>
-                <td><a href="{% url 'process_list' pet.owner.id pet.id %}">Processes</a></td>
-                <td><a href="{% url 'pet_update' pet.owner.id pet.id %}">Update</a></td>
-            </tr>
-        </table>
-
-    </div>
+{#    <div>#}
+{#        <table class="table table-hover">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th scope="col">ID</th>#}
+{#                <th scope="col">Name</th>#}
+{#                <th scope="col">Type Animal</th>#}
+{#                <th scope="col">Raze</th>#}
+{#                <th scope="col">Gender</th>#}
+{#                <th scope="col">Description</th>#}
+{#                <th scope="col">Birth Day</th>#}
+{#                <th scope="col"></th>#}
+{#                <th scope="col"></th>#}
+{#                <th scope="col"></th>#}
+{##}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#            <tr class="table-active">#}
+{#                <th scope="row">{{ pet.id }}</th>#}
+{#                <td>{{ pet.name }}</td>#}
+{#                <td>{{ pet.type_animal }}</td>#}
+{#                <td>{{ pet.raze }}</td>#}
+{#                <td>{{ pet.gender }}</td>#}
+{#                <td>{{ pet.description }}</td>#}
+{#                <td>{{ pet.birth_day }}</td>#}
+{##}
+{#                <td><a href="{% url 'vaccine_list' pet.owner.id pet.id %}">Vacines</a></td>#}
+{#                <td><a href="{% url 'process_list' pet.owner.id pet.id %}">Processes</a></td>#}
+{#                <td><a href="{% url 'pet_update' pet.owner.id pet.id %}">Update</a></td>#}
+{#            </tr>#}
+{#        </table>#}
+{##}
+{#    </div>#}
 
     <br>
 

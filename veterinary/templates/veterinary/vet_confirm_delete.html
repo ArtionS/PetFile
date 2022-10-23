@@ -5,28 +5,24 @@
 {% endblock %}
 
 {% block content %}
-
-    <a href="{% url 'vet_detail' vet.id %}">Go Back</a>
+    <br>
+    <a class="btn btn-secondary" href="{% url 'vet_detail' vet.id %}">Go Back</a>
 
     <form method="POST">
         {% csrf_token %}
-
-
         <br>
         <br>
-
-
     </form>
 
-    <legend> Delete this vet from your Conection List</legend>
+    <h1> Delete this vet from your Conection List</h1>
 
     <form name="pet_create" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset>
             <br>
-            <p>
+            <h2>
                 Are you sure you want to Remove this Veterinary from your Vet List ?
-            </p>
+            </h2>
             <br>
             <div>
                 <table class="table table-hover">
@@ -45,20 +41,14 @@
                     </tr>
                 </table>
                 <br>
-                <p>
-                    If you remove this Veterinary, you are going to stop sharing your pets information with this
-                    veterinary
-                </p>
+                <h3>
+                    If you remove this Veterinary, you are going to stop sharing your Pets information with this
+                    Veterinary
+                </h3>
                 <br>
             </div>
             <button href="{% url 'vet_create' vet.id %}" type="submit" class="btn btn-primary">Delete</button>
         </fieldset>
     </form>
-
-
-
-
-
-
 
 {% endblock %}

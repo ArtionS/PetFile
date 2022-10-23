@@ -14,7 +14,7 @@
         <fieldset>
 
             <div class="form-group">
-                <label for="type_process" class="form-label mt-4">Type Process</label>
+                <label for="type_process" class="form-label mt-4">Consult / Process </label>
                 <select name="type_process" class="form-select" id="type_process" value="{{ process.type_process }}">
                     <option value="C">Consult</option>
                     <option value="P">Process</option>
@@ -22,13 +22,13 @@
             </div>
 
             <div class="form-group">
-                <label for="title" class="form-label mt-4">Process Title</label>
+                <label for="title" class="form-label mt-4">Title</label>
                 <input name="title" type="text" class="form-control" id="title" aria-describedby="petlHelp"
                        placeholder="Enter Process Title" value="{{ process.title }}">
             </div>
 
             <div class="form-group">
-                <label for="description" class="form-label mt-4">Process Description</label>
+                <label for="description" class="form-label mt-4">Description</label>
                 <textarea name="description" class="form-control" id="description" rows="3"
                           placeholder="Enter Process Description"
                           value="{{ process.description }}">{{ process.description }}</textarea>

@@ -5,6 +5,7 @@ from django.contrib import messages
 Decoradores para validar que se tengan los permisos y que se este logueado
 """
 from django.contrib.auth.decorators import login_required, permission_required
+
 # @login_required # Decorador para estar Logeado
 # @permission_required('pet.view_pet', raise_exception=True)  # Cecorador para los permisos
 
@@ -32,7 +33,6 @@ Bloque Funciones para las mascotas
 @login_required
 @permission_required('pet.view_pet', raise_exception=True)
 def PetList(request):
-
     if request.user.groups.filter(name='group_user').exists():
         pets = request.user.pet_set.all()
 
@@ -156,8 +156,14 @@ def PetUpdate(request, id_user, id_pet):
             mypet = request.user.pet_set.get(id=id_pet)
 
         mypet.birth_day = mypet.birth_day.strftime("%Y-%m-%d")
-        form = PetForm()
-    return render(request, 'pet/pet_form.html', {'form': form, 'pet': mypet})
+
+    context = {
+        'pet_type_list': PetType.objects.all(),
+        'form': PetForm(),
+        'pet': mypet,
+    }
+
+    return render(request, 'pet/pet_form.html', context)
 
 
 # funcino para borrar una mascota

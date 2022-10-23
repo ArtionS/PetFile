@@ -77,7 +77,7 @@
 
                 {% if request.user.is_authenticated %}
 
-                    <h5 style=" margin-right: 0.5em; margin-top: 0.4em; ">{{ request.user }}</h5>
+                    <h5 style=" margin-right: 0.5em; margin-top: 0.4em; "><b>{{ request.user }}</b></h5>
 
                     <a style=" margin-left: 0.5em; " href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 

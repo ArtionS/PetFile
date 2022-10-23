@@ -1,39 +1,50 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
 
 {% block title %}
-Vet List / PetMedic
+    Vet List / PetMedic
 {% endblock %}
 
 {% block content %}
 
-<h1>Veterinary List </h1>
+    <h1>Veterinary List </h1>
 
-<form method="GET">
-    <input type="text" name="search-area" value="{{search_input}}">
-    <input type="submit" value="Search">
-</form>
-<br>
-<br>
-<div>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for vet in vets %}
-        <tr class="table-active">
-            <th scope="row">{{vet.id}}</th>
-            <td>{{vet.username}}</td>
-            <td><a href="{% url 'vet_detail' vet.id %}"> Detail</a></td>
-        </tr>
-        {% empty %}
-        <h3> No Vet in List </h3>
-        {% endfor %}
-    </table>
-</div>
+    <div class="col-lg-4">
+        <form method="GET">
+            <div class="form-group">
+
+                <div class="input-group mb-3">
+                    <input value="{{ search_input }}" name="search-area" type="text" class="form-control"
+                           placeholder="Veterinary Username"
+                           aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button value="Search" class="btn btn-secondary" type="submit" id="button-addon2">Search
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <br>
+    <br>
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for vet in vets %}
+                <tr class="table-active">
+                    <th scope="row">{{ vet.id }}</th>
+                    <td>{{ vet.username }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'vet_detail' vet.id %}"> Detail</a></td>
+                </tr>
+                {% empty %}
+                <h3> No Vet in List </h3>
+            {% endfor %}
+        </table>
+    </div>
 
 {% endblock %}

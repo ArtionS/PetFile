@@ -6,14 +6,16 @@
 
 {% block content %}
 
-<h1> {{id_pet}} Process Delete {{process.id}} </h1>
+<h1> Process Deletion </h1>
 
 <a href="{% url 'process_detail' id_user id_pet process.id %}" class="btn btn-secondary">Go Back</a>
-
+<br>
+<br>
 
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete the process {{ process }} ?  </p>
+    <h2>Are you sure you want to delete the process <b>{{ process }}</b>  from the pet?  </h2>
+    <br>
     <input type="submit" value="Delete" class="btn btn-warning">
 </form>
 
