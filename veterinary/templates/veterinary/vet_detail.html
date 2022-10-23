@@ -1,4 +1,6 @@
-{% extends 'main.html'%}
+{% extends 'main.html' %}
+
+{% load qr_code %}
 
 {% block title %}
     Vet Detail / PetMedic
@@ -6,16 +8,16 @@
 
 {% block content %}
 
-<h1> {{pet}} Vet Detail {{pet.id}} </h1>
-<br>
-<a href="{% url 'vet_list' %}"> Go Back</a>
+    <h1> {{ pet }} Vet Detail {{ pet.id }} </h1>
+    <br>
+    <a href="{% url 'vet_list' %}"> Go Back</a>
 
-<br>
-<br>
+    <br>
+    <br>
 
-<div>
+    <div>
         <table class="table table-hover">
-          <thead>
+            <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
@@ -23,16 +25,34 @@
 
 
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr class="table-active">
-                <th scope="row">{{vet.id}}</th>
-                <td>{{vet.username}}</td>
-                <td><a href="{% url 'vet_delete' vet.id %}"> Delete</a></td>
+                <th scope="row">{{ vet.id }}</th>
+                <td>{{ vet.username }}</td>
+
+
+                {% if request.user|has_group:"group_user" %}
+                    <td><a href="{% url 'vet_delete' vet.id %}"> Delete</a></td>
+                {% endif %}
+
+
             </tr>
         </table>
-    <br>
 
-</div>
+
+    <div >
+        <div class="d-flex justify-content-center">
+            {% qr_from_text link size="s" image_format="png" error_correction="L" %}
+        </div>
+    <br>
+        <h3 class="d-flex justify-content-center"> {{ link }} </h3>
+    </div>
+
+
+
+        <br>
+
+    </div>
 
 {% endblock %}

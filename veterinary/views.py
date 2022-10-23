@@ -78,24 +78,29 @@ def VetDetail(request, id_vet):
     Parte pendiente para desarrollo en la nuve QR
     """
 
+    if request.user.groups.filter(name='group_vet').exists():
+        vet = request.user
+
+    if request.user.groups.filter(name='group_user').exists():
+        con = ConectionUV.objects.filter(user_id=request.user)
+        if len(con) == 0:
+            vet = {}
+        else:
+            vet = con[0].vets.get(id=id_vet)
+
     print("Prueba de URL para QR")
-    print(request.get_full_path())
-
-    con = ConectionUV.objects.filter(user_id=request.user)
-
-    if len(con) == 0:
-        vets = {}
-    else:
-        vets = con[0].vets.get(id=id_vet)
+    link = f"http://{request.get_host()}/veterinary/create/{id_vet}/"
+    print(link)
 
     context = {
-        "vet": vets
+        "vet": vet,
+        "link" : link,
     }
     return render(request, "veterinary/vet_detail.html", context)
 
 
 def VetCreate(request, id_vet):
-    print("Actual")
+    # print("Actual")
     # actual_conection_user = ConectionUV.objects.filter(user_id=request.user)
     if len(ConectionUV.objects.filter(user_id=id_vet)) == 0:
         new_conection = ConectionUV(user_id=User.objects.get(id=id_vet))
