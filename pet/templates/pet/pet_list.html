@@ -7,7 +7,9 @@
 {% block content %}
 
     <h1>Pet List </h1>
-
+    <br>
+    <a href="{% url 'pet_list' %}" class="btn btn-secondary"> Go Back</a>
+    <br>
     <div class="row">
         <div class="col-lg-4">
             <form method="GET">
@@ -51,7 +53,7 @@
                                 <li class="list-group-item">Gender : {{ pet.gender }}</li>
                             </ul>
                             <div class="card-footer text-muted">
-                                <div class="d-flex justify-content-center" >
+                                <div class="d-flex justify-content-center">
                                     <a href="{% url 'pet_detail' pet.id %}" class="btn btn-info">Detail</a>
                                 </div>
                             </div>
@@ -67,32 +69,32 @@
 
     <br>
 
-{#    <div>#}
-{#        <table class="table table-hover">#}
-{#            <thead>#}
-{#            <tr>#}
-{#                <th scope="col">ID</th>#}
-{#                <th scope="col">Name</th>#}
-{#                <th scope="col">Type Animal</th>#}
-{#                <th scope="col">Gender</th>#}
-{#                <th scope="col"></th>#}
-{#            </tr>#}
-{#            </thead>#}
-{#            <tbody>#}
-{#            {% for pet in pets %}#}
-{#                <tr class="table-active">#}
-{#                    <th scope="row">{{ pet.id }}</th>#}
-{#                    <td>{{ pet.name }}</td>#}
-{#                    <td>{{ pet.type_animal }}</td>#}
-{#                    <td>{{ pet.gender }}</td>#}
-{#                    <td><a href="{% url 'pet_detail' pet.id %}">Button Detail</a></td>#}
-{#                </tr>#}
-{#                {% empty %}#}
-{#                <h3> No pet in List </h3>#}
-{#            {% endfor %}#}
-{#        </tbody>#}
-{#        </table>#}
-{#    </div>#}
+    {#    <div>#}
+    {#        <table class="table table-hover">#}
+    {#            <thead>#}
+    {#            <tr>#}
+    {#                <th scope="col">ID</th>#}
+    {#                <th scope="col">Name</th>#}
+    {#                <th scope="col">Type Animal</th>#}
+    {#                <th scope="col">Gender</th>#}
+    {#                <th scope="col"></th>#}
+    {#            </tr>#}
+    {#            </thead>#}
+    {#            <tbody>#}
+    {#            {% for pet in pets %}#}
+    {#                <tr class="table-active">#}
+    {#                    <th scope="row">{{ pet.id }}</th>#}
+    {#                    <td>{{ pet.name }}</td>#}
+    {#                    <td>{{ pet.type_animal }}</td>#}
+    {#                    <td>{{ pet.gender }}</td>#}
+    {#                    <td><a href="{% url 'pet_detail' pet.id %}">Button Detail</a></td>#}
+    {#                </tr>#}
+    {#                {% empty %}#}
+    {#                <h3> No pet in List </h3>#}
+    {#            {% endfor %}#}
+    {#        </tbody>#}
+    {#        </table>#}
+    {#    </div>#}
 
     <br>
     <br>

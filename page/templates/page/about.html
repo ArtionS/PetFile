@@ -1,5 +1,7 @@
 {% extends 'main.html' %}
 
+{% load qr_code %}
+
 {% block title %}
     About / PetMedic
 {% endblock %}
@@ -54,26 +56,36 @@
 
     <div class="jumbotron">
         <div class="container">
-            <h2 class="text-warning" >Cumpliendo</h2>
-            <p>En nuestra aplicación será necesario contar con los usuarios denominados veterinarios, ya que ellos son
-                los únicos que podrán generar los registros de las vacunas, procesos y consultas, también se encargarán
-                de subir los documentos que generen en la consulta y resultados de análisis. Es decir, son los
-                veterinarios quienes generan el expediente de la mascota.</p>
+            <h2 class="text-warning">Coméntanos qué opinas de la aplicación </h2>
+            <p>Usa los siguientes enlace para ir a la cuenta de twitter del desarrollador.</p>
         </div>
     </div>
 
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h3 class="text-danger" >Codigo QR</h3>
-                <p> Cada veterinario contará con un QR único. Con él podrán registrarse los usuarios y compartir su
-                    información, si eligen hacerlo. </p>
+                <h3 class="text-danger">Puedes escanear el código QR </h3>
+                <p> Puedes ir a la cuenta del desarrollador y ver los comentarios y Twitter de su cuneta. </p>
+
+
+                <div class="d-flex justify-content-center">
+                    {% qr_from_text "https://twitter.com/DavidSorAWS" size="s" image_format="png" error_correction="L" %}
+                </div>
+                <br>
+                <h3 class="d-flex justify-content-center"> https://twitter.com/DavidSorAWS </h3>
+
+
                 {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
             </div>
             <div class="col-md-4">
-                <h3 class="text-danger" >Permisos</h3>
-                <p>El veterinario podrá crear Vacunas, Procesos, Consultas y Documentos para el historial de tu mascota.
-                    Además podrá podrá actualizarlas o eliminarlas.</p>
+                <h3 class="text-danger">Danos tu opinion</h3>
+                <p> Tambien puedes darnos tu opinion comentando en este twit escanealo y ecribe en los comentario </p>
+                <div class="d-flex justify-content-center">
+                    {% qr_from_text "https://twitter.com/DavidSorAWS/status/1585720360543997953" size="s" image_format="png" error_correction="L" %}
+                </div>
+                <br>
+                <h3 class="d-flex justify-content-center"> https://twitter.com/DavidSorAWS/status/1585720360543997953 </h3>
+
                 {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
             </div>
 
