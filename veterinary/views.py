@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 
 # Paquete para pedir que se este en modo login y pedir permisos
-# from django.contrib.auth.decorators import login_required , permission_required
-# Create your views here.
+
+from django.contrib.auth.decorators import login_required, permission_required
+
+# @login_required
+# @permission_required('vaccine.view_vaccine', raise_exception=True)
 
 # from django.contrib.auth.models import User
 
@@ -14,7 +17,8 @@ from django.contrib.auth.models import User
 Bloque de funciones para Usuarios
 """
 
-
+@login_required
+@permission_required('veterinary.view_conectionuv', raise_exception=True)
 def UserList(request):
     con = ConectionUV.objects.filter(user_id=request.user)
 
@@ -24,7 +28,8 @@ def UserList(request):
 
     return render(request, "veterinary/user_list.html", context)
 
-
+@login_required
+@permission_required('veterinary.view_conectionuv', raise_exception=True)
 def UserDetail(request, id_user):
     con = ConectionUV.objects.filter(user_id=request.user)
     user = con[0].vets.get(id=id_user)
@@ -40,7 +45,8 @@ def UserDetail(request, id_user):
 Bloque de funciones para las Mascotas de Usuarios
 """
 
-
+@login_required
+@permission_required('veterinary.view_conectionuv', raise_exception=True)
 def UserPetDetail(request, id_user, id_pet):
     con = ConectionUV.objects.filter(user_id=request.user)
     user = con[0].vets.get(id=id_user)
@@ -56,7 +62,8 @@ def UserPetDetail(request, id_user, id_pet):
 Bloque de Funciones para Veterinarios
 """
 
-
+@login_required
+@permission_required('veterinary.view_conectionuv', raise_exception=True)
 # Funciones para a muestra de los veterinarios a los usuarios
 def VetList(request):
     con = ConectionUV.objects.filter(user_id=request.user)
@@ -72,11 +79,9 @@ def VetList(request):
 
     return render(request, "veterinary/vet_list.html", context)
 
-
+@login_required
+@permission_required('veterinary.view_conectionuv', raise_exception=True)
 def VetDetail(request, id_vet):
-    """
-    Parte pendiente para desarrollo en la nuve QR
-    """
 
     if request.user.groups.filter(name='group_vet').exists():
         vet = request.user
@@ -98,7 +103,8 @@ def VetDetail(request, id_vet):
     }
     return render(request, "veterinary/vet_detail.html", context)
 
-
+@login_required
+@permission_required('veterinary.add_conectionuv', raise_exception=True)
 def VetCreate(request, id_vet):
     # print("Actual")
     # actual_conection_user = ConectionUV.objects.filter(user_id=request.user)
@@ -112,13 +118,13 @@ def VetCreate(request, id_vet):
 
     # print("Vets")
     vet_conection = ConectionUV.objects.filter(user_id=id_vet)
-    print(vet_conection)
-    print(vet_conection[0].vets.all())
+    # print(vet_conection)
+    # print(vet_conection[0].vets.all())
 
     # print("User")
     user_conection = ConectionUV.objects.filter(user_id=request.user)
-    print(user_conection)
-    print(user_conection[0].vets.all())
+    # print(user_conection)
+    # print(user_conection[0].vets.all())
 
     context = {
         "vet": User.objects.get(id=id_vet)
@@ -138,7 +144,8 @@ def VetCreate(request, id_vet):
 
     return render(request, "veterinary/conection.html", context)
 
-
+@login_required
+@permission_required('veterinary.delete_conectionuv', raise_exception=True)
 def VetDelete(request, id_vet):
     """
     Proceso para la quitar a un veterinario de la lista de veterinarios de un usuario

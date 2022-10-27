@@ -6,11 +6,80 @@
 
 
 {% block content %}
-    <h1>ABOUT PAGE</h1>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="text-primary" class="display-3">ABOUT</h1>
+            <p class="text-secondary">Este proyecto ha sido desarrollado para cumplir con los módulos del proyecto
+                modular de la carrera de Ingeniería Informática del Centro Universitario de ciencias Exactas e
+                Ingeniería de la Universidad de Guadalajara</p>
+            {#          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        </div>
+    </div>
+    <hr>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="text-info" class="display-3">Ofreciendo</h1>
+            {#          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2 class="text-success">Sencilles</h2>
+            <p>Reducido a un uso práctico y como un archivero para facilitar el flujo del usuario o veterinario en la
+                aplicación, podrás acceder a la información de una mascota específica sin perderte. </p>
+            {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+        </div>
+        <div class="col-md-4">
+            <h2 class="text-success">Accesibilidad </h2>
+            <p>Podrás acceder a tus mascotas desde cualquier sitio, donde tengas internet, iniciando sesión. Para crear
+                una cuenta solo es necesario ingresar un nombre de usuario y una contraseña, además de tu nombre y
+                apellido de forma opcional, para ayudar a identificarte. </p>
+            {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+        </div>
+        <div class="col-md-4">
+            <h2 class="text-success">Disponibilidad </h2>
+            <p>Es necesaria la disponibilidad y por eso desde cualquier
+                dispositivo y en cualquier lugar con acceso a internet, sea una PC, una Laptop o celulares con
+                navegador. Siempre estará disponible para ti por que se encuentra en la nube. </p>
+            {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+        </div>
+        {#        <div class="col-md-4">#}
+        {#            <h2>Consultas</h2>#}
+        {#            <p>Ya sea una simple revisión o tratamiento estético.</p>#}
+        {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+        {#        </div>#}
+    </div>
 
-    <div>
+    <hr>
 
+    <div class="jumbotron">
+        <div class="container">
+            <h2 class="text-warning" >Cumpliendo</h2>
+            <p>En nuestra aplicación será necesario contar con los usuarios denominados veterinarios, ya que ellos son
+                los únicos que podrán generar los registros de las vacunas, procesos y consultas, también se encargarán
+                de subir los documentos que generen en la consulta y resultados de análisis. Es decir, son los
+                veterinarios quienes generan el expediente de la mascota.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="text-danger" >Codigo QR</h3>
+                <p> Cada veterinario contará con un QR único. Con él podrán registrarse los usuarios y compartir su
+                    información, si eligen hacerlo. </p>
+                {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-danger" >Permisos</h3>
+                <p>El veterinario podrá crear Vacunas, Procesos, Consultas y Documentos para el historial de tu mascota.
+                    Además podrá podrá actualizarlas o eliminarlas.</p>
+                {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
+            </div>
+
+        </div>
 
     </div>
+
 
 {% endblock %}

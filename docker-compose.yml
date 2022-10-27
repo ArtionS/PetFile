@@ -19,3 +19,4 @@ services:
       - AWS_DEFAULT_PROFILE
       - AWS_PROFILE
       - AWS_STORAGE_BUCKET_NAME=petfile-static-data
+      - DEBUG=TRUE
