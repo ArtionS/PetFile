@@ -60,7 +60,7 @@ def PetDetail(request, id_pet):
 
 # funcion para rear una mascota ya sea POST or GET
 @login_required
-@permission_required('pet.add_pet', raise_exception=True)
+@permission_required('pet.change_pet', raise_exception=True)
 def PetCreate(request, id_user):
     """
     Metodo POST Para dar de alta a una mascota
@@ -97,6 +97,7 @@ def PetCreate(request, id_user):
     context = {
         'form': PetForm(),
         'pet_type_list': PetType.objects.all(),
+        'id_user': id_user
     }
     return render(request, 'pet/pet_form.html', context)
 
@@ -161,6 +162,8 @@ def PetUpdate(request, id_user, id_pet):
         'pet_type_list': PetType.objects.all(),
         'form': PetForm(),
         'pet': mypet,
+        'id_user': id_user,
+        'id_pet': id_pet,
     }
 
     return render(request, 'pet/pet_form.html', context)

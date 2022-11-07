@@ -25,7 +25,7 @@
         <a href="{% url 'pet_list' %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
     {% if request.user|has_group:"group_vet" %}
-        <a href="{% url 'user_detail' pet.owner.id %}" class="btn btn-secondary"> Go Back</a>
+        <a href="{% url 'user_detail' id_user %}" class="btn btn-secondary"> Go Back</a>
     {% endif %}
 
 

@@ -1,35 +1,34 @@
 <!--{% load static %}-->
 
 <style>
-     footer {
-            position: relative;
-            /* Altura total del footer en px con valor negativo */
-            margin-top: -50px;
-            /* Altura del footer en px. Se han restado los 5px del margen
-               superior mas los 5px del margen inferior
-            */
-            height: 40px;
-            padding:5px 0px;
-            clear: both;
-            background: #00222b;
-            text-align: center;
-            color: #fff;
-        }
-
-        /* Esta clase define la anchura del contenido y la posicion centrada
-           El contenido queda centrado y limitado, pero la cabecera y el pie
-           llegan hasta los limites del navegador.
+    footer {
+        position: relative;
+        /* Altura total del footer en px con valor negativo */
+        margin-top: -50px;
+        /* Altura del footer en px. Se han restado los 5px del margen
+           superior mas los 5px del margen inferior
         */
-        .define {
-            width:960px;
-            margin:0 auto;
-        }
+        height: 40px;
+        padding: 5px 0px;
+        clear: both;
+        background: #00222b;
+        text-align: center;
+        color: #fff;
+    }
+
+    /* Esta clase define la anchura del contenido y la posicion centrada
+       El contenido queda centrado y limitado, pero la cabecera y el pie
+       llegan hasta los limites del navegador.
+    */
+    .define {
+        width: 960px;
+        margin: 0 auto;
+    }
 </style>
 
 <link rel="stylesheet"
       type="text/css"
       href="{% static 'css/bootstrap.min.css' %}">
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
@@ -41,54 +40,61 @@
 
 
 <!-- Remove the container if you want to extend the Footer to full width. -->
-<div class="container my-5">
+<div class="container">
+    <div class="row">
+        <div class="jumbotron">
 
-    <footer class="define" class="bg-dark text-center text-white">
-        <!-- Grid container -->
+            <div class="d-flex justify-content-center">
 
-        <div class="container p-4 pb-0">
+                <footer class="define" class="bg-dark text-center text-white">
+                    <!-- Grid container -->
 
-            <div class="row">
+                    <div class="container p-4 pb-0">
 
-                <div class="container p-4 pb-0">
+                        <div class="row">
 
-                    <div class="d-flex justify-content-around bd-highlight">
-                        <div class="p-2 bd-highlight">
-                            <h5 class="text-uppercase">Developer</h5>
-                            <p>
-                                Soriano Camarillo David U.<br>
-                                # 218294621 <br>
-                                Ingeniería Informática
-                            </p>
+                            <div class="container p-4 pb-0">
+
+                                <div class="d-flex justify-content-around bd-highlight">
+                                    <div class="p-2 bd-highlight">
+                                        <h5 class="text-uppercase">Developer</h5>
+                                        <p>
+                                            Soriano Camarillo David U.<br>
+                                            # 218294621 <br>
+                                            Ingeniería Informática
+                                        </p>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <h5 class="text-uppercase">Advisors</h5>
+                                        <p>
+                                            Patricia del Rosario Retamoza Vega <br>
+                                            Y <br>
+                                            Cristina Neri Cortes
+                                        </p>
+                                    </div>
+                                    {#                        <div class="p-2 bd-highlight">Flex item</div>#}
+                                </div>
+
+
+                                <!-- Copyright -->
+                                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                                    © 2022 Copyright:
+                                    <a class="text-white" href="http://petfile.web.softsoca.link"> (P.E.T.) Pet
+                                        Electronic
+                                        sTorage /
+                                        (
+                                        petfile.web.softsoca.link )</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-2 bd-highlight">
-                            <h5 class="text-uppercase">Advisors</h5>
-                            <p>
-                                Patricia del Rosario Retamoza Vega <br>
-                                Y <br>
-                                Cristina Neri Cortes
-                            </p>
-                        </div>
-{#                        <div class="p-2 bd-highlight">Flex item</div>#}
                     </div>
-
-
-
-
+                    <br>
+                    <br>
+                    <br>
                     <!-- Copyright -->
-                    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                        © 2022 Copyright:
-                        <a class="text-white" href="http://petfile.web.softsoca.link"> (P.E.T.) Pet Electronic sTorage /
-                            (
-                            petfile.web.softsoca.link )</a>
-                    </div>
-                </div>
+                </footer>
             </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <!-- Copyright -->
-    </footer>
+    </div>
 </div>
 <!-- End of .container -->

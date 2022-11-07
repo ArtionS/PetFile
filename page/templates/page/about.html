@@ -53,45 +53,37 @@
     </div>
 
     <hr>
-
-    <div class="jumbotron">
-        <div class="container">
-            <h2 class="text-warning">Coméntanos qué opinas de la aplicación </h2>
-            <p>Usa los siguientes enlace para ir a la cuenta de twitter del desarrollador.</p>
-        </div>
-    </div>
-
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h3 class="text-danger">Puedes escanear el código QR </h3>
-                <p> Puedes ir a la cuenta del desarrollador y ver los comentarios y Twitter de su cuneta. </p>
-
-
+            <div class="jumbotron">
                 <div class="d-flex justify-content-center">
-                    {% qr_from_text "https://twitter.com/DavidSorAWS" size="s" image_format="png" error_correction="L" %}
+                    <h2 class="text-warning">Coméntanos qué opinas de la aplicación </h2>
                 </div>
-                <br>
-                <h3 class="d-flex justify-content-center"> https://twitter.com/DavidSorAWS </h3>
-
-
-                {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
-            </div>
-            <div class="col-md-4">
-                <h3 class="text-danger">Danos tu opinion</h3>
-                <p> Tambien puedes darnos tu opinion comentando en este twit escanealo y ecribe en los comentario </p>
+                <div class="d-flex justify-content-center">
+                    <p>Usa los siguientes enlace para ir a la cuenta de twitter del desarrollador.</p>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <h3 class="text-danger">Danos tu opinion</h3>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <p> Tambien puedes darnos tu opinion comentando en este twit escanealo y ecribe en los
+                        comentario </p>
+                </div>
                 <div class="d-flex justify-content-center">
                     {% qr_from_text "https://twitter.com/DavidSorAWS/status/1585720360543997953" size="s" image_format="png" error_correction="L" %}
                 </div>
-                <br>
-                <h3 class="d-flex justify-content-center"> https://twitter.com/DavidSorAWS/status/1585720360543997953 </h3>
+                <div class="d-flex justify-content-center">
+                    <h3 class="d-flex justify-content-center">
+                        <a href="https://twitter.com/DavidSorAWS/status/1585720360543997953">
+                            https://twitter.com/DavidSorAWS/status/1585720360543997953
+                        </a>
+                    </h3>
+                </div>
 
-                {#            <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>#}
             </div>
-
         </div>
-
     </div>
+
 
 
 {% endblock %}

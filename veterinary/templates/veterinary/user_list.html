@@ -7,8 +7,9 @@
 {% block content %}
 
     <h1>Clients List </h1>
-<br>
+    <br>
     <a href="{% url 'home_page' %}" class="btn btn-secondary"> Go Back</a>
+    <br>
     <br>
     <div class="col-lg-4">
         <form method="GET">
@@ -50,7 +51,7 @@
 
                 </tr>
                 {% empty %}
-                <h3> No Veterinarys  </h3>
+                <h3> No Veterinarys </h3>
             {% endfor %}
         </table>
     </div>
